@@ -17,6 +17,7 @@ class SettingSeeder extends Seeder
             'semester_id' => '20221',
             'bujur' => '',
             'lintang' => '',
+            'radius' => 100,
             'waktu_masuk_start' => '06.59',
             'waktu_masuk_end'    => '07.30',
             'waktu_pulang_start' => '12.59',
