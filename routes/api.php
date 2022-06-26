@@ -1,0 +1,176 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});*/
+Route::post('/get-desa', 'DashboardController@get_desa')->name('api.get_desa');
+Route::post('/get-pengumuman', 'PageController@get_pengumuman')->name('api.get_pengumuman');
+Route::post('/register', 'DashboardController@register')->name('api.register');
+Route::post('/dashboard', 'DashboardController@index');
+Route::post('/dokumen', 'DashboardController@dokumen');
+Route::post('/informasi', 'DashboardController@informasi');
+Route::post('/seleksi', 'DashboardController@seleksi');
+Route::post('/generate-hasil', 'DashboardController@generate_hasil');
+Route::get('/sekolah/koordinat', 'SekolahController@koordinat');
+Route::get('/sekolah/detil/{id}', 'SekolahController@detil');
+Route::post('/pendaftar/hapus', 'PendaftarController@hapus_riwayat');
+Route::post('/pendaftar/kunci', 'PendaftarController@buka_kunci');
+Route::post('/pendaftar/proses', 'PendaftarController@proses');
+Route::post('/pendaftar/upload', 'PendaftarController@upload');
+Route::post('/pendaftar/update-nilai', 'PendaftarController@update_nilai');
+Route::resource('pendaftar', 'PendaftarController');
+Route::resource('sekolah', 'SekolahController');
+Route::group(['prefix' => 'pendaftaran'], function(){
+    Route::post('/all-jalur', 'PendaftaranController@jalur');
+    Route::post('/all-sekolah', 'PendaftaranController@get_sekolah');
+    Route::post('/all-komponen', 'PendaftaranController@get_komponen');
+    Route::post('/upload-file', 'PendaftaranController@upload_dokumen');
+    Route::delete('/hapus-file/{dokumen_id}', 'PendaftaranController@hapus_dokumen');
+    Route::get('/kunci/{pendaftar_id}', 'PendaftaranController@kunci');
+    Route::get('/sekolah', 'PendaftaranController@sekolah');
+    Route::post('/siswa', 'PendaftaranController@siswa');
+    Route::post('prestasi', 'PendaftaranController@get_prestasi');
+});
+Route::resource('pendaftaran', 'PendaftaranController');
+Route::group(['prefix' => 'referensi'], function(){
+    Route::get('/{query}', 'ReferensiController@index');
+    Route::post('/{query}', 'ReferensiController@index');
+    Route::post('/simpan-{query}', 'ReferensiController@simpan_data');
+    Route::put('/update-{query}/{id}', 'ReferensiController@update_data');
+    Route::delete('/delete-{query}/{id}', 'ReferensiController@delete_data');
+});
+Route::resource('berita', 'BeritaController');
+Route::post('/profile', 'UsersController@profile');
+Route::post('/reset-password', 'UsersController@reset_passsword');
+Route::post('/update-profile', 'UsersController@update_profile');
+Route::group(['prefix' => 'users'], function(){
+    Route::get('/{query}', 'UsersController@index');
+    Route::post('/{query}', 'UsersController@index');
+    Route::put('/{id}', 'UsersController@update');
+    Route::post('/simpan-{query}', 'UsersController@simpan_data');
+    Route::delete('/delete-{query}/{id}', 'UsersController@delete_data');
+});
+/*
+Route::post('/login-user', 'ApiController@login_api');
+//Route::get('/instrumen', 'InstrumenController@index');
+//Route::delete('/instrumen/{id}', 'InstrumenController@destroy');
+Route::get('/get-kategori', 'BeritaController@kategori');
+Route::get('/cetak-instrumen', 'ReferensiController@cetak');
+Route::get('/hitung-nilai-instrumen/{user_id}', 'NilaiController@hitung_nilai');
+Route::post('/hitung-nilai-instrumen', 'NilaiController@hitung_nilai');
+//Route::get('/users', 'UsersController@index');
+//Route::post('/users', 'UsersController@create');
+
+    Route::post('/komponen/upload', 'ReferensiController@upload');
+    Route::post('/sekolah-sasaran', 'ReferensiController@sekolah_sasaran');
+    Route::post('/sekolah-sasaran-pendamping', 'ReferensiController@sekolah_sasaran_pendamping');
+    Route::post('/status-coe', 'ReferensiController@status_coe');
+    Route::post('/sektor-coe', 'ReferensiController@sektor_coe');
+    Route::post('/reset-isian-instrumen', 'ReferensiController@reset_isian_instrumen');
+    
+Route::group(['prefix' => 'hitung-rapor'], function(){
+    Route::post('/snp', 'NilaiController@hitung_snp');
+    Route::post('/renstra', 'NilaiController@hitung_renstra');
+    Route::post('/link-match', 'NilaiController@hitung_link_match');
+    Route::post('/bsc', 'NilaiController@hitung_bsc');
+});
+Route::group(['prefix' => 'kuisioner'], function(){
+    Route::post('/', 'KuisionerController@index');
+    Route::get('/', 'KuisionerController@index');
+    Route::get('/progres', 'KuisionerController@progres');
+    Route::post('/parse-json', 'KuisionerController@parse_json');
+    //Route::get('/{query?}/{id?}', 'KuisionerController@index');
+});
+Route::group(['prefix' => 'verifikasi'], function(){
+    Route::post('/{query}', 'VerifikasiController@index');
+    Route::get('/download', 'VerifikasiController@download');
+    //Route::post('/instrumen', 'VerifikasiController@get_instrumen');
+    //Route::post('/subs', 'VerifikasiController@get_subs');
+});
+Route::group(['prefix' => 'rapor-mutu'], function(){
+    Route::post('/hasil', 'RaporController@index');
+    Route::post('/snp', 'RaporController@snp');
+    Route::post('/bsc', 'RaporController@bsc');
+    Route::post('/link-match', 'RaporController@link_match');
+    Route::post('/renstra', 'RaporController@renstra');
+    //Route::get('/hasil', 'RaporController@index');
+    Route::post('/pakta', 'RaporController@pakta');
+    Route::post('/pra-cetak-pakta', 'RaporController@pra_cetak_pakta');
+    //Route::post('/cetak-pakta', 'RaporController@cetak_pakta');
+    Route::get('/cetak-pakta', 'RaporController@cetak_pakta');
+    Route::get('/cetak-rapor', 'RaporController@cetak_rapor');
+    Route::post('/batal-pakta', 'RaporController@batal_pakta');
+    Route::post('/kirim', 'RaporController@kirim');
+    Route::post('/sekolah', 'RaporController@sekolah')->name('api.rapor_sekolah');
+    Route::get('/komparasi', 'RaporController@komparasi')->name('api.rapor_mutu.komparasi');
+});
+Route::group(['prefix' => 'validasi'], function(){
+    Route::get('/', 'ValidasiController@index');
+    Route::post('/get-data', 'ValidasiController@get_data');
+    Route::post('/post-data', 'ValidasiController@post_data');
+    Route::post('/proses', 'ValidasiController@proses');
+    Route::get('/download', 'ValidasiController@download');
+});
+Route::resource('users', 'UsersController');
+Route::resource('komponen', 'KomponenController');
+Route::resource('aspek', 'AspekController');
+Route::resource('atribut', 'AtributController');
+Route::resource('indikator', 'IndikatorController');
+
+Route::resource('instrumen', 'InstrumenController');
+Route::post('/get-kuisioner', 'KuisionerController@proses');
+Route::get('/get-kuisioner', 'KuisionerController@proses');
+Route::post('/simpan-jawaban', 'KuisionerController@simpan_jawaban');
+Route::group(['prefix' => 'sinkronisasi'], function(){
+    Route::post('/', 'HomeController@sinkron');
+    Route::post('/komli', 'SinkronisasiController@komli');
+    Route::post('/ptk', 'SinkronisasiController@ptk');
+    Route::post('/pd', 'SinkronisasiController@pd');
+    Route::post('/server', 'SinkronisasiController@server');
+});
+Route::get('/progress', 'FrontController@progress')->name('api.progres');
+Route::get('/progress/edit-tahap/{id}', 'FrontController@edit_tahap')->name('api.edit_tahap');
+Route::post('/progress/simpan-tahap', 'FrontController@edit_tahap')->name('api.simpan_tahap');
+Route::get('/smk-coe', 'FrontController@smk_coe')->name('api.smk_coe');
+Route::get('/wilayah', 'FrontController@get_wilayah')->name('api.wilayah');
+Route::post('/filter-wilayah', 'FrontController@filter_wilayah')->name('api.filter_wilayah');
+Route::group(['prefix' => 'peta'], function(){
+    Route::get('/', 'PetaController@index')->name('api.peta.index');
+    Route::get('/wilayah/{kode_wilayah}', 'PetaController@wilayah')->name('api.peta.wilayah');
+    Route::get('/sekolah/{id_level_wilayah}/{kode_wilayah}', 'PetaController@sekolah');
+});
+Route::post('/verifikasi-sekolah', 'VerifikasiController@verifikasi_sekolah')->name('api.verifikasi_sekolah');
+Route::post('/validasi-token', 'VerifikasiController@validasi_token')->name('api.validasi_token');
+Route::post('/hitung-dokumen', 'VerifikasiController@hitung_dokumen')->name('api.hitung_dokumen');
+Route::post('/validasi-token-instrumen', 'InstrumenController@validasi_token')->name('api.validasi_token_instrumen');
+Route::post('/get-instrumen', 'InstrumenController@cari')->name('api.get_instrumen');
+Route::post('/validasi-instrumen', 'InstrumenController@validasi_instrumen')->name('api.validasi_instrumen');
+Route::group(['prefix' => 'rekapitulasi'], function(){
+    Route::get('/', 'RekapitulasiController@index')->name('api.rekapitulasi.index');
+    Route::get('/wilayah', 'RekapitulasiController@wilayah')->name('api.rekapitulasi.wilayah');
+    Route::post('/wilayah', 'RekapitulasiController@wilayah')->name('api.rekapitulasi.wilayah');
+});
+Route::group(['prefix' => 'laporan'], function(){
+    Route::get('/list-laporan', 'LaporanController@list_laporan')->name('api.laporan.list');
+    Route::post('/validasi-token', 'LaporanController@validasi_token')->name('api.laporan.validasi_token');
+    Route::post('/validasi-token-verifikator', 'LaporanController@validasi_token_verifikator')->name('api.laporan.validasi_token_verifikator');
+    Route::post('/sekolah', 'LaporanController@get_sekolah')->name('api.laporan.sekolah');
+    Route::post('/formulir', 'LaporanController@formulir')->name('api.laporan.formulir');
+    Route::post('/simpan', 'LaporanController@simpan')->name('api.laporan.simpan');
+    Route::post('/upload', 'LaporanController@upload')->name('api.laporan.upload');
+});
+*/

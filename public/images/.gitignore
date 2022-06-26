@@ -1,0 +1,6 @@
+# Ignore everything
+*
+!.gitignore
+!AdminLTELogo.png
+!ajax-loader.gif
+!logo.jpg
