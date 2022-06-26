@@ -35,7 +35,6 @@
             'kecamatan' => $user->kecamatan,
             'desa' => $user->desa,
             'roles' => $user->roles,
-            'pendaftar' => $user->pendaftar,
         ]) !!};
     </script>
 </head>

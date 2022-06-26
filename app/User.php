@@ -52,37 +52,4 @@ class User extends Authenticatable
     public function desa(){
         return $this->belongsTo('App\Wilayah', 'desa_id', 'kode_wilayah');
     }
-    public function pendaftar(){
-        return $this->belongsTo('App\Pendaftar', 'user_id', 'user_id');
-    }
-    public function agama(){
-        return $this->belongsTo('App\Agama', 'agama_id', 'id');
-    }
-    public function jenis_tinggal(){
-        return $this->belongsTo('App\Jenis_tinggal', 'jenis_tinggal_id', 'id');
-    }
-    public function getKebutuhanKhususAttribute($value)
-    {
-        return unserialize($value);
-    }
-    public function nilai(){
-        return $this->hasMany(Nilai::class, 'user_id', 'user_id');
-    }
-    public function getUsiaAttribute()
-    {
-        //$years = Carbon::parse($this->tanggal_lahir)->age;
-        //$years = Carbon::parse($this->tanggal_lahir)->diff(Carbon::now())->format('%y Tahun, %m Bulan dan %d Hari');
-        $years = Carbon::parse($this->tanggal_lahir)->diff(date('Y-m-d H:i:s', strtotime('2022-07-01')))->format('%y Tahun, %m Bulan dan %d Hari');
-        return "{$years}";
-    }
-    public function getAge(){
-        return $this->getUsiaAttribute->diff(Carbon::now())
-             ->format('%y years, %m months and %d days');
-    }
-    public function getUsiaAgoAttribute()
-    {
-        //$years = Carbon::parse($this->tanggal_lahir)->diff(Carbon::now())->format('%y years, %m months and %d days');
-        $years = Carbon::parse($this->tanggal_lahir)->diffInDays();
-        return "{$years}";
-    }
 }

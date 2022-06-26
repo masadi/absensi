@@ -21,11 +21,7 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     public function index(Request $request){
-        $user = User::with(['nilai', 'agama', 'jenis_tinggal', 'pendaftar' => function($query){
-            $query->with(['sekolah_pilihan' => function($query){
-                $query->with(['sekolah', 'jalur', 'status']);
-            }, 'dokumen.komponen', 'status']);
-        }])->find($request->user_id);
+        $user = User::find($request->user_id);
         if($user->hasRole(['admin', 'dinas'])){
             $all_data = [
                 /*'jml_sekolah' => DB::table('sekolah')
@@ -33,73 +29,16 @@ class DashboardController extends Controller
                 ->selectRaw("count(case when bentuk_pendidikan_id = 5 then 1 end) as jml_sd")
                 ->selectRaw("count(case when bentuk_pendidikan_id = 6 then 1 end) as jml_smp")
                 ->first(),*/
-                'jml_sekolah' => Sekolah::select(
-                    array(
-                        DB::raw('COUNT(*) as total'),
-                        DB::raw("COUNT(CASE WHEN bentuk_pendidikan_id = 5 THEN 1 END) AS jml_sd"),
-                        DB::raw("COUNT(CASE WHEN bentuk_pendidikan_id = 6 THEN 1 END) AS jml_smp")
-                    )
-                )->first(),
-                'jml_pendaftar' => DB::table('pendaftar')
-                ->selectRaw('count(*) as total')
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 then 1 end) as pendaftar_sd")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 then 1 end) as pendaftar_smp")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jenis_kelamin = 'L' then 1 end) as pendaftar_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jenis_kelamin = 'L' then 1 end) as pendaftar_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jenis_kelamin = 'P' then 1 end) as pendaftar_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jenis_kelamin = 'P' then 1 end) as pendaftar_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 1 AND jenis_kelamin = 'L' then 1 end) as pendaftar_zonasi_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 1 AND jenis_kelamin = 'P' then 1 end) as pendaftar_zonasi_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 2 AND jenis_kelamin = 'L' then 1 end) as pendaftar_afirmasi_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 2 AND jenis_kelamin = 'P' then 1 end) as pendaftar_afirmasi_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 3 AND jenis_kelamin = 'L' then 1 end) as pendaftar_ortu_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 3 AND jenis_kelamin = 'P' then 1 end) as pendaftar_ortu_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 4 AND jenis_kelamin = 'L' then 1 end) as pendaftar_zonasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 4 AND jenis_kelamin = 'P' then 1 end) as pendaftar_zonasi_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 5 AND jenis_kelamin = 'L' then 1 end) as pendaftar_afirmasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 5 AND jenis_kelamin = 'P' then 1 end) as pendaftar_afirmasi_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 6 AND jenis_kelamin = 'L' then 1 end) as pendaftar_ortu_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 6 AND jenis_kelamin = 'P' then 1 end) as pendaftar_ortu_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 7 AND jenis_kelamin = 'L' then 1 end) as pendaftar_prestasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 7 AND jenis_kelamin = 'P' then 1 end) as pendaftar_prestasi_smp_p")
-                ->join('sekolah_pilihan', 'pendaftar.pendaftar_id', '=', 'sekolah_pilihan.pendaftar_id')
-                ->first(),
-            ];
-        } elseif($user->hasRole('sekolah')){
-            $all_data = [
-                'jml_sekolah' => NULL,
-                'jml_pendaftar' => DB::table('pendaftar')
-                ->where('sekolah_id', $user->sekolah_id)
-                ->where('tampil', 1)
-                ->selectRaw('count(*) as total')
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 then 1 end) as pendaftar_sd")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 then 1 end) as pendaftar_smp")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jenis_kelamin = 'L' then 1 end) as pendaftar_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jenis_kelamin = 'L' then 1 end) as pendaftar_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jenis_kelamin = 'P' then 1 end) as pendaftar_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jenis_kelamin = 'P' then 1 end) as pendaftar_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 1 AND jenis_kelamin = 'L' then 1 end) as pendaftar_zonasi_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 1 AND jenis_kelamin = 'P' then 1 end) as pendaftar_zonasi_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 2 AND jenis_kelamin = 'L' then 1 end) as pendaftar_afirmasi_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 2 AND jenis_kelamin = 'P' then 1 end) as pendaftar_afirmasi_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 3 AND jenis_kelamin = 'L' then 1 end) as pendaftar_ortu_sd_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 5 AND jalur_id = 3 AND jenis_kelamin = 'P' then 1 end) as pendaftar_ortu_sd_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 4 AND jenis_kelamin = 'L' then 1 end) as pendaftar_zonasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 4 AND jenis_kelamin = 'P' then 1 end) as pendaftar_zonasi_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 5 AND jenis_kelamin = 'L' then 1 end) as pendaftar_afirmasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 5 AND jenis_kelamin = 'P' then 1 end) as pendaftar_afirmasi_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 6 AND jenis_kelamin = 'L' then 1 end) as pendaftar_ortu_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 6 AND jenis_kelamin = 'P' then 1 end) as pendaftar_ortu_smp_p")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 7 AND jenis_kelamin = 'L' then 1 end) as pendaftar_prestasi_smp_l")
-                ->selectRaw("count(case when bentuk_pendidikan_id = 6 AND jalur_id = 7 AND jenis_kelamin = 'P' then 1 end) as pendaftar_prestasi_smp_p")
-                ->join('sekolah_pilihan', 'pendaftar.pendaftar_id', '=', 'sekolah_pilihan.pendaftar_id')
-                ->first(),
+                'jml_sekolah' => 0,
+                'jml_pendaftar' => NULL,
             ];
         } else {
-            $all_data = $user;
+            $all_data = [
+                'jml_sekolah' => NULL,
+                'jml_pendaftar' => NULL,
+            ];
         }
-        $jalur = Jalur::with(['komponen'])->where('bentuk_pendidikan_id', $user->bentuk_pendidikan_id)->get();
-        return response()->json(['status' => 'success', 'data' => $all_data, 'jalur' => $jalur]);
+        return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function get_desa(Request $request){
         $all_data = Wilayah::select('kode_wilayah', 'nama')->where('id_level_wilayah', 4)->where('mst_kode_wilayah', $request->kecamatan_id)->get();
