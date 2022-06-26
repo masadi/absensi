@@ -14,23 +14,16 @@ return [
     'roles_structure' => [
         'admin' => [
             'users' => 'c,r,u,d',
-            'approval' => 'c,r,u,d',
+            'absensi' => 'c,r,u,d',
             //'daftar'  => 'c,r,u,d',
         ],
-        'dinas' => [
-            //'users' => 'c,r,u,d',
-            'approval' => 'c,r,u,d',
-            //'daftar'  => 'r,u',
-        ],
-        'sekolah' => [
-            //'users' => 'c,r,u,d',
-            'approval' => 'c,r,u,d',
-            //'daftar'  => 'r,u',
+        'ptk' => [
+            'users' => 'r',
+            'absensi' => 'c,r,u,d',
         ],
         'siswa' => [
-            //'users' => 'r',
-            //'approval' => 'r',
-            'daftar'  => 'c,r,u,d',
+            'users' => 'r',
+            'absensi' => 'c,r,u,d',
         ],
     ],
 

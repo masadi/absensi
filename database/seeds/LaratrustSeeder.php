@@ -64,15 +64,7 @@ class LaratrustSeeder extends Seeder
                     $user = \App\User::create([
                         'name' => 'Admin',
                         'username' => 'admin',
-                        'email' => 'admin@'.config('ppdb.domain', 'disdik.sampangkab.go.id'),
-                        'password' => bcrypt('12345678')
-                    ]);
-                    $user->attachRole($role);
-                } else if($key == 'dinas'){
-                    $user = \App\User::create([
-                        'name' => 'Admin Dinas',
-                        'username' => 'dinas',
-                        'email' => 'dinas@'.config('ppdb.domain', 'disdik.sampangkab.go.id'),
+                        'email' => 'admin@smkariyametta.sch.id',
                         'password' => bcrypt('12345678')
                     ]);
                     $user->attachRole($role);
