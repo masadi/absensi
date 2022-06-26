@@ -13,19 +13,14 @@ class SettingSeeder extends Seeder
     public function run()
     {
         $setting = [
-            'tahun_pelajaran' => '2022/2023',
-            'pendaftaran' => '2022-06-27',
-            'pengumuman' => '2022-07-04',
-            'tahun' => '2022',
-            'id_level_wilayah' => 2,
-            'kode_wilayah'    => '052700',
-            'mst_kode_wilayah' => '052701AA',
-            'semester_id'  => '20202',
-            //'bentuk_pendidikan_id' => ['sd', 'smp'],
-            'domain' => 'ppdbsampang.com',
-            'wilayah' => 'Kabupaten Sampang',
-            'seeder' => 'sampang',
-            'tanggal_pengumuman' => '04 Juli 2022',
+            'tahun_ajaran_id' => '2022',
+            'semester_id' => '20221',
+            'bujur' => '',
+            'lintang' => '',
+            'waktu_masuk_start' => '06.59',
+            'waktu_masuk_end'    => '07.30',
+            'waktu_pulang_start' => '12.59',
+            'waktu_pulang_end'  => '13.30',
         ];
         Setting::truncate();
         foreach($setting as $key=>$value){
