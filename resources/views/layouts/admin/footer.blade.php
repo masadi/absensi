@@ -4,14 +4,14 @@
             <div class="app-footer-left">
                 <ul class="nav">
                     <li class="nav-item">
-                        <strong>Hak Cipta &copy; {{ now()->year }} Dinas Pendidikan Kab. Sampang</strong>. All rights reserved.
+                        <strong>Copyright &copy; {!!config('setting.copyright')!!}</strong>. All rights reserved.
                     </li>
                 </ul>
             </div>
             <div class="app-footer-right">
                 <ul class="nav">
                     <li class="nav-item">
-                        Versi 2.0
+                        Versi {{config('setting.versi')}}
                     </li>
                 </ul>
             </div>

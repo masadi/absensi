@@ -22,9 +22,6 @@ class ReferensiController extends Controller
     public function get_sekolah($request)
     {
         $user = User::find($request->user_id);
-        $jalur = Jalur::with(['pagu' => function($query){
-            $query->where('sekolah_id', request()->sekolah_id);
-        }])->where('bentuk_pendidikan_id', $user->bentuk_pendidikan_id)->get();
         $sortBy = request()->sortby;
         $all_data = Sekolah::where(function($query){
             if(request()->q){
@@ -48,7 +45,7 @@ class ReferensiController extends Controller
                 $query->where('bentuk_pendidikan_id', request()->bentuk_pendidikan_id);
             }
         })->with(['pagu', 'user'])->orderBy($sortBy, request()->sortbydesc)->paginate(request()->per_page);
-        return response()->json(['status' => 'success', 'data' => $all_data, 'jalur' => $jalur]);
+        return response()->json(['status' => 'success', 'data' => $all_data]);
     }
     public function simpan_data(Request $request){
         if($request->route('query') == 'koordinat'){

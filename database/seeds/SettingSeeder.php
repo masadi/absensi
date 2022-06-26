@@ -22,6 +22,9 @@ class SettingSeeder extends Seeder
             'waktu_masuk_end'    => '07.30',
             'waktu_pulang_start' => '12.59',
             'waktu_pulang_end'  => '13.30',
+            'nama_sekolah' => 'Sekolah Contoh',
+            'copyright' => 'CV. Cyber Electra &trade;',
+            'versi' => '1.0',
         ];
         Setting::truncate();
         foreach($setting as $key=>$value){

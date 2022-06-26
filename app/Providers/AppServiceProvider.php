@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         };
         if (Schema::hasTable('settings')) {
             foreach (Setting::all() as $setting) {
-                Config::set('ppdb.'.$setting->key, $setting->value);
+                Config::set('setting.'.$setting->key, $setting->value);
             }
         }
     }

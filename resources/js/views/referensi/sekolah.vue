@@ -14,15 +14,12 @@
             <i class="fas fa-th mr-1"></i>
             Data Sekolah
           </h3>
-          <div class="btn-actions-pane-right" v-if="hasRole('sekolah')">
+          <div class="btn-actions-pane-right">
             <b-button size="sm" block squared variant="success" @click="editData(detil_sekolah)">Edit Data Sekolah</b-button>
           </div>
         </div>
         <div class="card-body">
-          <template v-if="hasRole('admin')">
-            <app-datatable :items="items" :fields="fields" :meta="meta" :title="'Hapus Sekolah'" @per_page="handlePerPage" @pagination="handlePagination" @search="handleSearch" @sort="handleSort"/>
-          </template>
-          <template v-else>
+          <template>
             <table class="table" v-if="detil_sekolah">
               <tr>
                   <td width="30%">Nama</td>

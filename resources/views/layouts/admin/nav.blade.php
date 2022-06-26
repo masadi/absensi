@@ -52,41 +52,9 @@
             </button>
         </span>
     </div>
-    <?php
-    $jenjang = '';
-    if(auth()->user()->bentuk_pendidikan_id){
-        if(auth()->user()->bentuk_pendidikan_id == 5){
-            $jenjang = '- Sekolah Dasar (SD)';
-        } else {
-            $jenjang = '- Sekolah Menengah Pertama (SMP)';
-        }
-    } else {
-        $jenjang = 'Kab. Sampang';
-    }
-    ?>
     <div class="app-header__content">
         <div class="app-header-left">
-            <h3>PPDB {{$jenjang}}</h3>
-            <ul class="header-menu nav" style="display: none;">
-                <li class="nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
-                        <i class="nav-link-icon fa fa-database"> </i>
-                        Statistics
-                    </a>
-                </li>
-                <li class="btn-group nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
-                        <i class="nav-link-icon fa fa-edit"></i>
-                        Projects
-                    </a>
-                </li>
-                <li class="dropdown nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
-                        <i class="nav-link-icon fa fa-cog"></i>
-                        Settings
-                    </a>
-                </li>
-            </ul>
+            <h3>{{config('setting.nama_sekolah')}}</h3>
         </div>
         <div class="app-header-right">
             <div class="header-btn-lg pr-0">
@@ -101,7 +69,7 @@
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                <router-link tag="a" to="/profil">{{auth()->user()->name}} {!!(config('app.tahun_pendataan') ? ' &raquo; Tahun Pendataan '.config('app.tahun_pendataan') : NULL)!!}</router-link>
+                                <router-link tag="a" to="/profil">{{auth()->user()->name}}</router-link>
                             </div>
                         </div>
                     </div>

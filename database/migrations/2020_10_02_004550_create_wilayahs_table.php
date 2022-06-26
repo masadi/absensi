@@ -45,7 +45,6 @@ class CreateWilayahsTable extends Migration
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
         });
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('negara_id')->references('negara_id')->on('negara')->onDelete('cascade');
             $table->foreign('provinsi_id')->references('kode_wilayah')->on('wilayah')->onDelete('cascade');
             $table->foreign('kabupaten_id')->references('kode_wilayah')->on('wilayah')->onDelete('cascade');
             $table->foreign('kecamatan_id')->references('kode_wilayah')->on('wilayah')->onDelete('cascade');
@@ -61,7 +60,6 @@ class CreateWilayahsTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['negara_id']);
             $table->dropForeign(['provinsi_id']);
             $table->dropForeign(['kabupaten_id']);
             $table->dropForeign(['kecamatan_id']);
