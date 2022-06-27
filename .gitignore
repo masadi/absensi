@@ -1,10 +1,8 @@
-/node_modules
 /alur
-/public/hot
+/node_modules
 /public/storage
 /storage/*.key
 /vendor
-/.well-known
 .env
 .env.backup
 .phpunit.result.cache
@@ -12,3 +10,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/vuexy-shell-scripts
+supervisord.log
+supervisord.pid
