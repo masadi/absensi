@@ -15,7 +15,7 @@
       "submenu": [
         {
           "url": "layouts/collapsed-menu",
-          "name": "Collapsed Menu Admin",
+          "name": "Collapsed Menu",
           "icon": "circle",
           "slug": "collapsed-menu",
 		  "role" : "adminstrator"

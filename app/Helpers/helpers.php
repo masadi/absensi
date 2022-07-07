@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Config;
 use Illuminate\Support\Str;
-
+use Laratrust\Laratrust;
 class Helper
 {
     public static function applClasses()

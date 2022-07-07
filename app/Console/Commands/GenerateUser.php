@@ -39,13 +39,20 @@ class GenerateUser extends Command
      */
     public function handle()
     {
-        User::truncate();
+        User::whereNotNull('email')->delete();
         $user = User::create([
             'name' => 'Administrator',
             'email' => 'admin@smkariyametta.sch.id',
             'password' => bcrypt('12345678'),
         ]);
-        $admin = Role::where('name', 'administrator')->first();
-        $user->attachRole($admin);
+        $role = Role::where('name', 'administrator')->first();
+        $user->attachRole($role);
+        $user = User::create([
+            'name' => 'PTK',
+            'email' => 'ptk@smkariyametta.sch.id',
+            'password' => bcrypt('12345678'),
+        ]);
+        $role = Role::where('name', 'ptk')->first();
+        $user->attachRole($role);
     }
 }
