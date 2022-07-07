@@ -57,9 +57,6 @@
     <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
         <h2>Nama Sekolah | T.A 2022/2023 Ganjil</h2>
-        <!--a class="nav-link nav-link-style">
-          <i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i>
-        </a-->
       </li>
     </ul>
   </div>
@@ -68,24 +65,6 @@
     <a class="nav-link nav-link-style">
           <i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i>
         </a>
-      <!--a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true">
-        <i class="flag-icon flag-icon-us"></i>
-        <span class="selected-language">English</span>
-      </a-->
-      <!--div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
-        <a class="dropdown-item" href="{{ url('lang/en') }}" data-language="en">
-          <i class="flag-icon flag-icon-us"></i> English
-        </a>
-        <a class="dropdown-item" href="{{ url('lang/fr') }}" data-language="fr">
-          <i class="flag-icon flag-icon-fr"></i> French
-        </a>
-        <a class="dropdown-item" href="{{ url('lang/de') }}" data-language="de">
-          <i class="flag-icon flag-icon-de"></i> German
-        </a>
-        <a class="dropdown-item" href="{{ url('lang/pt') }}" data-language="pt">
-          <i class="flag-icon flag-icon-pt"></i> Portuguese
-        </a>
-      </div-->
     </li>
     <li class="nav-item dropdown dropdown-user">
       <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
