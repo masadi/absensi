@@ -23,3 +23,4 @@
 @stack('modals')
 @livewireScripts
 <script defer src="{{ asset(mix('vendors/js/alpinejs/alpine.js')) }}"></script>
+<script src="{{ asset('leaflet/leaflet-providers.js') }}"></script>

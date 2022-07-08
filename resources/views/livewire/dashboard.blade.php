@@ -4,6 +4,23 @@
             <h4 class="card-title">Kick start your next project 🚀</h4>
         </div>
         <div class="card-body">
+            <?php
+            $map_center = config('laravel-maps.map_center');
+            ?>
+        @map([
+            'lat' => config('laravel-maps.map_center.lat'),
+            'lng' => config('laravel-maps.map_center.lng'),
+            'zoom' => 16,
+            'markers' => [
+                [
+                    'title' => 'Nama Sekolah',
+                    'lat' => config('laravel-maps.map_center.lat'),
+                    'lng' => config('laravel-maps.map_center.lng'),
+                    'popup' => '<p>Lokasi Sekolah</p>',
+                ],
+            ],
+        ])
+
             <div class="card-text">
             <p>
                 Getting start with your project custom requirements using a ready template which is quite difficult and time
