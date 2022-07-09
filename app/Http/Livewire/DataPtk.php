@@ -18,7 +18,6 @@ class DataPtk extends Component
     public function loadPerPage(){
         $this->resetPage();
     }
-    public $page = 1;
     public $sortby = 'created_at';
     public $sortbydesc = 'DESC';
     public $per_page = 10;

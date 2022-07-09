@@ -5,20 +5,35 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Absen;
+use Livewire\WithPagination;
 
 class Rekapitulasi extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $search = '';
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+    public function loadPerPage(){
+        $this->resetPage();
+    }
+    public $sortby = 'created_at';
+    public $sortbydesc = 'DESC';
+    public $per_page = 10;
     public $start = '';
     public $end = '';
-    public $data_absen = '';
     public $periode = 'Bulan Ini';
     protected $listeners = ['getStart', 'getEnd'];
     public function getStart($start)
     {
         $this->start = Carbon::createFromTimeStamp(strtotime($start))->format('d/m/Y');
+        $this->resetPage();
     }
     public function getEnd($end){
         $this->end = Carbon::createFromTimeStamp(strtotime($end))->format('d/m/Y');
+        $this->resetPage();
     }
     public function render()
     {
@@ -39,11 +54,17 @@ class Rekapitulasi extends Component
             } else {
                 $query->whereMonth('created_at', date('m'));
             }
-        })->with(['ptk', 'absen_masuk', 'absen_pulang'])->get();
-        $this->data_absen = $all_data;
+        })->with(['ptk', 'absen_masuk', 'absen_pulang'])->when($this->search, function($absen) {
+            $absen->wherehas('ptk', function($query){
+                $query->where('nama', 'LIKE', '%' . $this->search . '%')
+                ->orWhere('nuptk', 'LIKE', '%' . $this->search . '%');
+            });
+        })->paginate($this->per_page);
         if($this->end){
             $this->periode = 'Tanggal '.$this->start.' s/d '.$this->end;
         }
-        return view('livewire.rekapitulasi');
+        return view('livewire.rekapitulasi', [
+            'data_absen' => $all_data,
+        ]);
     }
 }

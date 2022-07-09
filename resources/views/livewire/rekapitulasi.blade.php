@@ -9,6 +9,21 @@
                 <span class="input-group-text">s/d</span>
                 <input type="text" class="form-control" placeholder="Filter Tanggal" aria-label="end" id="end" wire:model="end">
             </div>
+            <div class="row justify-content-between mb-2">
+                <div class="col-4">
+                    <div class="d-inline">
+                        <select class="form-select" wire:model="per_page" wire:change="loadPerPage">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <input type="text" class="form-control" placeholder="Cari data..." wire:model="search">
+                </div>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -43,6 +58,14 @@
                     @endif
                 </tbody>
             </table>
+            <div class="row justify-content-between mt-2">
+                <div class="col-4">
+                    <p>Showing {{ $data_absen->firstItem() }} to {{ ($data_absen->firstItem()) ? $data_absen->firstItem() + $data_absen->count() - 1 : 0 }} of {{ $data_absen->total() }} items</p>
+                </div>
+                <div class="col-4">
+                    {{ $data_absen->links('components.custom-pagination-links-view') }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
