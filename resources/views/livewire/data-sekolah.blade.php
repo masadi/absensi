@@ -19,27 +19,27 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center">Sekolah</th>
                         <th class="text-center">Nama</th>
-                        <th class="text-center">Email</th>
+                        <th class="text-center">NPSN</th>
+                        <th class="text-center">Jml Karyawan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data_ptk as $ptk)
+                    @foreach($data_sekolah as $sekolah)
                     <tr>
-                        <td>{{$ptk->sekolah->nama}}</td>
-                        <td>{{$ptk->nama}}</td>
-                        <td>{{$ptk->email}}</td>
+                        <td>{{$sekolah->nama}}</td>
+                        <td>{{$sekolah->npsn}}</td>
+                        <td>{{$sekolah->ptk_count}}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
             <div class="row justify-content-between mt-2">
                 <div class="col-4">
-                    <p>Showing {{ $data_ptk->firstItem() }} to {{ $data_ptk->firstItem() + $data_ptk->count() - 1 }} of {{ $data_ptk->total() }} items</p>
+                    <p>Showing {{ $data_sekolah->firstItem() }} to {{ $data_sekolah->firstItem() + $data_sekolah->count() - 1 }} of {{ $data_sekolah->total() }} items</p>
                 </div>
                 <div class="col-4">
-                    {{ $data_ptk->links('components.custom-pagination-links-view') }}
+                    {{ $data_sekolah->links('components.custom-pagination-links-view') }}
                 </div>
             </div>
         </div>

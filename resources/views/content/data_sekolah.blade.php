@@ -1,7 +1,7 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Proses Absensi')
+@section('title', 'Data Sekolah')
 
 @section('content')
-<livewire:absensi />
+<livewire:data-sekolah />
 @endsection

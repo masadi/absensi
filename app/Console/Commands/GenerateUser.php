@@ -20,7 +20,7 @@ class GenerateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:user {npsn} {semester_id}';
+    protected $signature = 'generate:user {semester_id} {npsn?}';
 
     /**
      * The console command description.
@@ -46,6 +46,7 @@ class GenerateUser extends Command
      */
     public function handle()
     {
+        $npsn = ['69762158', '20607013', '20606862', '20613916'];
         $semester = Semester::updateOrCreate([
             'semester_id' => 20221,
             'nama' => '2022/2023 Ganjil',
@@ -57,7 +58,25 @@ class GenerateUser extends Command
             'display_name' => $semester->nama,
             'description' => $semester->nama,
         ]);
-        $sync_sekolah = Http::get('http://103.40.55.242/erapor_server/sync/get_sekolah/'.$this->argument('npsn'));
+        User::whereNotNull('email')->delete();
+        $user = User::create([
+            'name' => 'Administrator',
+            'email' => 'admin@smkariyametta.sch.id',
+            'password' => bcrypt('12345678'),
+        ]);
+        $this->info($user->name. ' berhasil disimpan. ID:'.$user->sekolah_id);
+        $role = Role::where('name', 'administrator')->first();
+        $user->attachRole($role, $team);
+        if($this->argument('npsn')){
+            $this->sedot_sekolah($this->argument('npsn'), $team);
+        } else {
+            foreach($npsn as $n){
+                $this->sedot_sekolah($n, $team);
+            }
+        }
+    }
+    private function sedot_sekolah($npsn, $team){
+        $sync_sekolah = Http::get('http://103.40.55.242/erapor_server/sync/get_sekolah/'.$npsn);
         $sekolah = json_decode($sync_sekolah->body());
         if(isset($sekolah->data[0])){
             $sekolah = $sekolah->data[0];
@@ -90,21 +109,26 @@ class GenerateUser extends Command
                 'sekolah_id'		=> $sekolah_id,
                 'npsn'				=> $sekolah->npsn,
             ]);
-            User::whereNotNull('email')->delete();
             if($response->successful()){
                 $all_data = $response->object();
                 $role = Role::where('name', 'ptk')->first();
                 foreach($all_data->dapodik as $dapodik){
-                    $user = User::create([
+                    $email = ($dapodik->email) ?? $this->generateEmail();
+                    $user = User::updateOrCreate(
+                        [
+                            'email' => $email,
+                        ],
+                        [
                         'sekolah_id' => $sekolah_id,
                         'name' => strtoupper($dapodik->nama),
-                        'email' => $dapodik->email,
                         'password' => bcrypt('12345678'),
-                    ]);
+                        ]
+                    );
                     $this->info($user->name. ' berhasil disimpan. ID:'.$user->sekolah_id);
                     $user->attachRole($role, $team);
-                    $ptk = Ptk::create([
-                        'ptk_id' => strtolower($dapodik->ptk_id),
+                    $ptk = Ptk::updateOrCreate(
+                        ['ptk_id' => strtolower($dapodik->ptk_id)],
+                        [
                         'sekolah_id' => $sekolah_id,
                         'user_id' => $user->id,
                         'nama' => strtoupper($dapodik->nama),
@@ -115,23 +139,19 @@ class GenerateUser extends Command
                         'jenis_ptk_id' => $dapodik->jenis_ptk_id,
                         'agama_id' => $dapodik->agama_id,
                         'status_kepegawaian_id' => $dapodik->status_kepegawaian_id,
-                        'email' => $dapodik->email,
-                    ]);
+                        'email' => $email,
+                        ]
+                    );
                     $this->info($ptk->nama. ' berhasil disimpan. ID:'.$ptk->sekolah_id);
                 }
             }
             $this->info($sekolah->nama. ' berhasil disimpan. ID:'.$sekolah_id);
-            $user = User::create([
-                'sekolah_id' => $sekolah_id,
-                'name' => 'Administrator',
-                'email' => 'admin@smkariyametta.sch.id',
-                'password' => bcrypt('12345678'),
-            ]);
-            $this->info($user->name. ' berhasil disimpan. ID:'.$user->sekolah_id);
-            $role = Role::where('name', 'administrator')->first();
-            $user->attachRole($role, $team);
         } else {
             $this->error($data['Nama']. ' gagal disimpan');
         }
+    }
+    private function generateEmail(){
+        $random = Str::random(6);
+        return strtolower($random).'@ariyametta.sch.id';
     }
 }

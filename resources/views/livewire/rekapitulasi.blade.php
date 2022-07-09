@@ -4,11 +4,31 @@
         Rekapitulasi Absensi per {{$periode}}
         </div>
         <div class="card-body">
+            @role('administrator', session('semester_id'))
+            <div class="row mb-2">
+                <div class="col-4">
+                    <select class="form-select" wire:model="sekolah_id" wire:change="filterSekolah">
+                        <option selected>== Filter Sekolah ==</option>
+                        @foreach($data_sekolah as $sekolah)
+                        <option value="{{ $sekolah->sekolah_id }}">{{ $sekolah->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Filter Tanggal" aria-label="start" id="start" wire:model="start">
+                        <span class="input-group-text">s/d</span>
+                        <input type="text" class="form-control" placeholder="Filter Tanggal" aria-label="end" id="end" wire:model="end">
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="input-group mb-2">
                 <input type="text" class="form-control" placeholder="Filter Tanggal" aria-label="start" id="start" wire:model="start">
                 <span class="input-group-text">s/d</span>
                 <input type="text" class="form-control" placeholder="Filter Tanggal" aria-label="end" id="end" wire:model="end">
             </div>
+            @endrole
             <div class="row justify-content-between mb-2">
                 <div class="col-4">
                     <div class="d-inline">

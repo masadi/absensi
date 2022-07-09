@@ -12,4 +12,8 @@ class Sekolah extends Model
 	protected $table = 'sekolah';
 	protected $primaryKey = 'sekolah_id';
 	protected $guarded = [];
+	public function ptk()
+	{
+		return $this->hasMany(Ptk::class, 'sekolah_id', 'sekolah_id');
+	}
 }

@@ -105,29 +105,35 @@ class Absensi extends Component
             });
         })->first();*/
         $this->now = Carbon::now();
-        $this->scan_masuk_start = Carbon::createFromTimeString(config('settings.scan_masuk_start'));
-        $this->scan_masuk_end = Carbon::createFromTimeString(config('settings.scan_masuk_end'));
-        $this->scan_pulang_start = Carbon::createFromTimeString(config('settings.scan_pulang_start'));
-        $this->scan_pulang_end = Carbon::createFromTimeString(config('settings.scan_pulang_end'));
-        //public $disabled_masuk = '';
-        //public $disabled_pulang = '';
-        //dd($this->masuk);
-        if ($this->now->between($this->scan_masuk_start, $this->scan_masuk_end) && !$this->masuk) {
-            $this->disabled_masuk = '';
-        }
-        if ($this->now->between($this->scan_pulang_start, $this->scan_pulang_end) && !$this->pulang) {
-            $this->disabled_pulang = '';
-        }
-        if($this->masuk){
-            $this->aktifitas_masuk = Carbon::createFromTimeStamp(strtotime($this->masuk->created_at))->format('H:i');
-        }
-        if($this->pulang){
-            $this->aktifitas_pulang = Carbon::createFromTimeStamp(strtotime($this->pulang->created_at))->format('H:i');
-        }
-        if(session('jarak') > config('settings.jarak')){
+        if(session('settings_'.$user->sekolah_id.'_scan_masuk_start')){
+            $this->scan_masuk_start = Carbon::createFromTimeString(session('settings_'.$user->sekolah_id.'_scan_masuk_start'));
+            $this->scan_masuk_end = Carbon::createFromTimeString(session('settings_'.$user->sekolah_id.'_scan_masuk_end'));
+            $this->scan_pulang_start = Carbon::createFromTimeString(session('settings_'.$user->sekolah_id.'_scan_pulang_start'));
+            $this->scan_pulang_end = Carbon::createFromTimeString(session('settings_'.$user->sekolah_id.'_scan_pulang_end'));
+            //public $disabled_masuk = '';
+            //public $disabled_pulang = '';
+            //dd($this->masuk);
+            if ($this->now->between($this->scan_masuk_start, $this->scan_masuk_end) && !$this->masuk) {
+                $this->disabled_masuk = '';
+            }
+            if ($this->now->between($this->scan_pulang_start, $this->scan_pulang_end) && !$this->pulang) {
+                $this->disabled_pulang = '';
+            }
+            if($this->masuk){
+                $this->aktifitas_masuk = Carbon::createFromTimeStamp(strtotime($this->masuk->created_at))->format('H:i');
+            }
+            if($this->pulang){
+                $this->aktifitas_pulang = Carbon::createFromTimeStamp(strtotime($this->pulang->created_at))->format('H:i');
+            }
+            if(session('jarak') > session('settings_'.$user->sekolah_id.'_jarak')){
+                $this->disabled_masuk = 'disabled';
+                $this->disabled_pulang = 'disabled';
+                $this->status = 'Jarak Anda dengan sekolah lebih dari '.session('settings_'.$user->sekolah_id.'_jarak').' meter';
+            }
+        } else {
             $this->disabled_masuk = 'disabled';
             $this->disabled_pulang = 'disabled';
-            $this->status = 'Jarak Anda dengan sekolah lebih dari '.config('settings.jarak').' meter';
+            $this->status = 'Aplikasi belum di atur oleh Administrator. Silahkan hubungi Administrator untuk mengatur aplikasi!';
         }
         return view('livewire.absensi');
     }

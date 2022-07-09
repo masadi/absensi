@@ -19,8 +19,8 @@ class GenerateMenus
         $text_class = ['class' => 'd-flex align-items-center'];
         \Menu::make('MyNavBar', function ($menu) use ($text_class, $request){
             $menu->add('Beranda')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('home'))->link->attr($text_class);
-            $menu->add('Profile', 'user/profile')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('user'))->link->attr($text_class);
             $menu->add('Pengaturan', 'pengaturan')->data('role', ['administrator'])->append('</span>')->prepend($this->icon('settings'))->link->attr($text_class);
+            $menu->add('Sekolah', 'data-sekolah')->data('role', ['administrator'])->append('</span>')->prepend($this->icon('server'))->link->attr($text_class);
             $menu->add('PTK', 'ptk')->data('role', ['administrator'])->append('</span>')->prepend($this->icon('users'))->link->attr($text_class);
             $menu->add('Proses Absensi', 'absensi')->data('role', ['ptk', 'pd'])->append('</span>')->prepend($this->icon('user-check'))->link->attr($text_class);
             $menu->add('Rekapitulasi', 'rekapitulasi')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('list'))->link->attr($text_class);
@@ -30,6 +30,7 @@ class GenerateMenus
             $menu->pageLayouts->add('Without Menu', 'layouts/without-menu')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('circle'))->link->attr($text_class);
             $menu->pageLayouts->add('Layout Empty', 'layouts/empty')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('circle'))->link->attr($text_class);
             $menu->pageLayouts->add('Layout Blank', 'layouts/blank')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('circle'))->link->attr($text_class);*/
+            $menu->add('Profile', 'user/profile')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('user'))->link->attr($text_class);
             $menu->add('Keluar Aplikasi', 'logout')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('power'))->link->attr([
                 'class'         => 'd-flex align-items-center text-danger',
                 'onclick'   => 'event.preventDefault(); document.getElementById(\'logout-form\').submit();',

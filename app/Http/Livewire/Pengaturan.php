@@ -4,9 +4,12 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Setting;
+use App\Models\Sekolah;
+use Config;
 
 class Pengaturan extends Component
 {
+    public $sekolah_id;
     public $scan_masuk_start_jam;
     public $scan_masuk_start_menit;
     public $scan_masuk_end_jam;
@@ -16,7 +19,9 @@ class Pengaturan extends Component
     public $scan_pulang_end_jam;
     public $scan_pulang_end_menit;
     public $jarak;
+    public $showForm = FALSE;
     protected $rules = [
+        'sekolah_id' => 'required',
         'scan_masuk_start_jam' => 'required',
         'scan_masuk_end_jam' => 'required',
         'scan_pulang_start_jam' => 'required',
@@ -28,6 +33,7 @@ class Pengaturan extends Component
         'jarak' => 'required',
     ];
     protected $messages = [
+        'sekolah_id.required' => 'Sekolah tidak boleh kosong!!',
         'scan_masuk_start_jam.required' => 'Jam Absen Masuk Awal tidak boleh kosong!!',
         'scan_masuk_end_jam.required' => 'Jam Absen Masuk Akhir tidak boleh kosong!',
         'scan_pulang_start_jam.required' => 'Jam Absen Pulang Awal tidak boleh kosong!!',
@@ -38,21 +44,34 @@ class Pengaturan extends Component
         'scan_pulang_end_menit.required' => 'Menit Absen Pulang Akhir tidak boleh kosong!',
         'jarak.required' => 'Jarak Maksimum tidak boleh kosong!',
     ];
+    public function change()
+    {
+        $this->showForm = true;
+        $this->scan_masuk_start_jam = session('settings_'.$this->sekolah_id.'_scan_masuk_end_jam');
+        $this->scan_masuk_end_jam = session('settings_'.$this->sekolah_id.'_scan_masuk_end_jam');
+        $this->scan_pulang_start_jam = session('settings_'.$this->sekolah_id.'_scan_pulang_start_jam');
+        $this->scan_pulang_end_jam = session('settings_'.$this->sekolah_id.'_scan_pulang_end_jam');
+        $this->scan_masuk_start_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_start_menit');
+        $this->scan_masuk_end_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_end_menit');
+        $this->scan_pulang_start_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_start_menit');
+        $this->scan_pulang_end_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_end_menit');
+        $this->jarak = session('settings_'.$this->sekolah_id.'_jarak');
+    }
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
     }
     public function mount()
     {
-        $this->scan_masuk_start_jam = config('settings.scan_masuk_start_jam');
-        $this->scan_masuk_end_jam = config('settings.scan_masuk_end_jam');
-        $this->scan_pulang_start_jam = config('settings.scan_pulang_start_jam');
-        $this->scan_pulang_end_jam = config('settings.scan_pulang_end_jam');
-        $this->scan_masuk_start_menit = config('settings.scan_masuk_start_menit');
-        $this->scan_masuk_end_menit = config('settings.scan_masuk_end_menit');
-        $this->scan_pulang_start_menit = config('settings.scan_pulang_start_menit');
-        $this->scan_pulang_end_menit = config('settings.scan_pulang_end_menit');
-        $this->jarak = config('settings.jarak');
+        $this->scan_masuk_start_jam = session('settings_'.$this->sekolah_id.'_scan_masuk_start_jam');
+        $this->scan_masuk_end_jam = session('settings_'.$this->sekolah_id.'_scan_masuk_end_jam');
+        $this->scan_pulang_start_jam = session('settings_'.$this->sekolah_id.'_scan_pulang_start_jam');
+        $this->scan_pulang_end_jam = session('settings_'.$this->sekolah_id.'_scan_pulang_end_jam');
+        $this->scan_masuk_start_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_start_menit');
+        $this->scan_masuk_end_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_end_menit');
+        $this->scan_pulang_start_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_start_menit');
+        $this->scan_pulang_end_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_end_menit');
+        $this->jarak = session('settings_'.$this->sekolah_id.'_jarak');
     }
     public function save()
     {
@@ -62,6 +81,7 @@ class Pengaturan extends Component
             Setting::updateOrcreate(
                 [
                     'key' => $d,
+                    'sekolah_id' => $this->sekolah_id,
                 ],
                 [
                     'value' => $this->{$d},
@@ -71,6 +91,7 @@ class Pengaturan extends Component
         Setting::updateOrcreate(
             [
                 'key' => 'scan_masuk_start',
+                'sekolah_id' => $this->sekolah_id,
             ],
             [
                 'value' => $this->scan_masuk_start_jam.':'.$this->scan_masuk_start_menit,
@@ -79,6 +100,7 @@ class Pengaturan extends Component
         Setting::updateOrcreate(
             [
                 'key' => 'scan_masuk_end',
+                'sekolah_id' => $this->sekolah_id,
             ],
             [
                 'value' => $this->scan_masuk_end_jam.':'.$this->scan_masuk_end_menit,
@@ -87,6 +109,7 @@ class Pengaturan extends Component
         Setting::updateOrcreate(
             [
                 'key' => 'scan_pulang_start',
+                'sekolah_id' => $this->sekolah_id,
             ],
             [
                 'value' => $this->scan_pulang_start_jam.':'.$this->scan_pulang_start_menit,
@@ -95,6 +118,7 @@ class Pengaturan extends Component
         Setting::updateOrcreate(
             [
                 'key' => 'scan_pulang_end',
+                'sekolah_id' => $this->sekolah_id,
             ],
             [
                 'value' => $this->scan_pulang_end_jam.':'.$this->scan_pulang_end_menit,
@@ -103,11 +127,15 @@ class Pengaturan extends Component
         Setting::updateOrcreate(
             [
                 'key' => 'jarak',
+                'sekolah_id' => $this->sekolah_id,
             ],
             [
                 'value' => $this->jarak,
             ]
         );
+        foreach (Setting::where('sekolah_id', $this->sekolah_id)->get() as $setting) {
+            session(['settings_'.$this->sekolah_id.'_'.$setting->key => $setting->value]);
+        }
     }
     public function render()
     {
@@ -115,6 +143,8 @@ class Pengaturan extends Component
         $this->scan_masuk_end = config('settings.scan_masuk_end');
         $this->scan_pulang_start = config('settings.scan_pulang_start');
         $this->scan_pulang_end = config('settings.scan_pulang_end');*/
-        return view('livewire.pengaturan');
+        return view('livewire.pengaturan', [
+            'data_sekolah' => Sekolah::select('sekolah_id', 'nama')->get(),
+        ]);
     }
 }

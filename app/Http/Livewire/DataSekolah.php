@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\WithPagination;
 use Livewire\Component;
-use App\Models\Ptk;
+use Livewire\WithPagination;
+use App\Models\Sekolah;
 
-class DataPtk extends Component
+class DataSekolah extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -23,13 +23,11 @@ class DataPtk extends Component
     public $per_page = 10;
     public function render()
     {
-        return view('livewire.data-ptk', [
-            'data_ptk' => Ptk::with(['sekolah' => function($query){
-                $query->select('sekolah_id', 'nama');
-            }])->orderBy($this->sortby, $this->sortbydesc)
+        return view('livewire.data-sekolah', [
+            'data_sekolah' => Sekolah::withCount('ptk')->orderBy($this->sortby, $this->sortbydesc)
                 ->when($this->search, function($ptk) {
                     $ptk->where('nama', 'ILIKE', '%' . $this->search . '%')
-                    ->orWhere('nuptk', 'ILIKE', '%' . $this->search . '%');
+                    ->orWhere('npsn', 'ILIKE', '%' . $this->search . '%');
             })->paginate($this->per_page)
         ]);
     }
