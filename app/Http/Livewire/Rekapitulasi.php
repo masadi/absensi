@@ -56,8 +56,8 @@ class Rekapitulasi extends Component
             }
         })->with(['ptk', 'absen_masuk', 'absen_pulang'])->when($this->search, function($absen) {
             $absen->wherehas('ptk', function($query){
-                $query->where('nama', 'LIKE', '%' . $this->search . '%')
-                ->orWhere('nuptk', 'LIKE', '%' . $this->search . '%');
+                $query->where('nama', 'ILIKE', '%' . $this->search . '%')
+                ->orWhere('nuptk', 'ILIKE', '%' . $this->search . '%');
             });
         })->paginate($this->per_page);
         if($this->end){
