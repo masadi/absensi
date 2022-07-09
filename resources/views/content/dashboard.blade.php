@@ -52,7 +52,7 @@ const options = {
 function success(pos) {
   const crd = pos.coords;
 
-  map.setView([crd.latitude, crd.longitude], 26);
+  map.setView([crd.latitude, crd.longitude]);
   var markerFrom = L.circleMarker([markers[0]._latlng.lat, markers[0]._latlng.lng], { color: "#F00", radius: 10 });
   var markerTo =  L.circleMarker([crd.latitude, crd.longitude], { color: "#4AFF00", radius: 10 });
   var from = markerFrom.getLatLng();

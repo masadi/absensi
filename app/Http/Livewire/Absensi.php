@@ -17,7 +17,8 @@ class Absensi extends Component
     $end = Carbon::createFromTimeString('08:00');
     */
     use LivewireAlert;
-    public $jarak;
+    public $jarak_pengguna;
+    public $jarak_pengaturan;
     public $status = 0;
     public $data = '';
     public $masuk = '';
@@ -135,6 +136,8 @@ class Absensi extends Component
             $this->disabled_pulang = 'disabled';
             $this->status = 'Aplikasi belum di atur oleh Administrator. Silahkan hubungi Administrator untuk mengatur aplikasi!';
         }
+        $this->jarak_pengguna = session('jarak');
+        $this->jarak_pengaturan = session('settings_'.$user->sekolah_id.'_jarak');
         return view('livewire.absensi');
     }
 }
