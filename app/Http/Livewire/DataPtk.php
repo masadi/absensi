@@ -26,8 +26,8 @@ class DataPtk extends Component
         return view('livewire.data-ptk', [
             'data_ptk' => Ptk::orderBy($this->sortby, $this->sortbydesc)
                 ->when($this->search, function($ptk) {
-                    $ptk->where('nama', 'LIKE', '%' . $this->search . '%')
-                    ->orWhere('nuptk', 'LIKE', '%' . $this->search . '%');
+                    $ptk->where('nama', 'ILIKE', '%' . $this->search . '%')
+                    ->orWhere('nuptk', 'ILIKE', '%' . $this->search . '%');
             })->paginate($this->per_page)
         ]);
     }
