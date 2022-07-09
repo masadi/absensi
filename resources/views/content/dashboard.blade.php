@@ -34,6 +34,7 @@ window.addEventListener('LaravelMaps:MapInitialized', function (event) {
    markers = event.detail.markers;
    var service = event.detail.service;
    L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+   navigator.geolocation.getCurrentPosition(success, error, options);
 });
 window.addEventListener('LaravelMaps:MarkerClicked', function (event) {
     var element = event.detail.element;
@@ -51,16 +52,13 @@ const options = {
 function success(pos) {
   const crd = pos.coords;
 
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
   map.setView([crd.latitude, crd.longitude], 26);
   var markerFrom = L.circleMarker([markers[0]._latlng.lat, markers[0]._latlng.lng], { color: "#F00", radius: 10 });
   var markerTo =  L.circleMarker([crd.latitude, crd.longitude], { color: "#4AFF00", radius: 10 });
   var from = markerFrom.getLatLng();
   var to = markerTo.getLatLng();
   var jarak = getDistance(from, to);
+  Livewire.emit('postAdded', jarak)
   var latlngs = Array();
   latlngs.push(from);
   latlngs.push(to);
@@ -73,9 +71,9 @@ function success(pos) {
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
 }
-navigator.geolocation.getCurrentPosition(success, error, options);
 function getDistance(from, to)
 {
+  return (from.distanceTo(to)).toFixed(0)/1000 * 1000;
   return ("Jarak Anda ke Sekolah: " + (from.distanceTo(to)).toFixed(0)/1000) + ' km';
 }
 </script>

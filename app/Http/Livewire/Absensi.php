@@ -17,6 +17,7 @@ class Absensi extends Component
     $end = Carbon::createFromTimeString('08:00');
     */
     use LivewireAlert;
+    public $jarak;
     public $status = 0;
     public $data = '';
     public $masuk = '';
@@ -122,6 +123,11 @@ class Absensi extends Component
         }
         if($this->pulang){
             $this->aktifitas_pulang = Carbon::createFromTimeStamp(strtotime($this->pulang->created_at))->format('H:i');
+        }
+        if(session('jarak') > config('settings.jarak')){
+            $this->disabled_masuk = 'disabled';
+            $this->disabled_pulang = 'disabled';
+            $this->status = 'Jarak Anda dengan sekolah lebih dari '.config('settings.jarak').' meter';
         }
         return view('livewire.absensi');
     }

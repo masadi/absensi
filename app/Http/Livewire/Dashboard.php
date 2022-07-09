@@ -9,11 +9,16 @@ class Dashboard extends Component
 {
     public $lat = '';
     public $lng = '';
+    public $jarak;
+    protected $listeners = ['postAdded' => 'incrementPostCount'];
     public function render()
     {
         $sekolah = Sekolah::first();
         $this->lat = ($sekolah->lintang) ? $sekolah->lintang : config('laravel-maps.map_center.lat');
         $this->lng = ($sekolah->bujur) ? $sekolah->bujur : config('laravel-maps.map_center.lng');
         return view('livewire.dashboard');
+    }
+    public function incrementPostCount($data){
+        return session(['jarak' => $data]);
     }
 }

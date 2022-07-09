@@ -7,16 +7,16 @@
                 'zoom' => 16,
                 'markers' => [
                     [
-                        'title' => 'Nama Sekolah',
+                        'title' => session('nama_sekolah'),
                         'lat' => $lat,
                         'lng' => $lng,
-                        'popup' => '<p>Lokasi Sekolah</p>',
+                        'popup' => session('nama_sekolah'),
                     ],
                 ],
             ])
         </div>
     </div>
-    <div class="card">
+    <div class="card" style="display:none;">
         <div class="card-header">
             <h4 class="card-title">Rekapitulasi Absensi</h4>
         </div>

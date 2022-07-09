@@ -1,6 +1,11 @@
 <div>
     <div class="card">
         <div class="card-body">
+            @if($status)
+                <div class="alert alert-danger p-1 mt-2 text-center" role="alert">
+                    {{$status}}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-6">
                     <div class="d-grid gap-2">

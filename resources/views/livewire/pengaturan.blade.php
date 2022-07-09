@@ -128,6 +128,16 @@
                         @enderror
                     </div>
                 </div>
+                <div class="row mb-2">
+                    <label for="jarak" class="col-sm-2 col-form-label">Jarak Maksimum</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                        <span class="input-group-text" wire:ignore><i data-feather="map-pin"></i></span>
+                        <input type="text" class="form-control" wire:model="jarak">
+                        <span class="input-group-text" wire:ignore>meter</span>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
         </div>
