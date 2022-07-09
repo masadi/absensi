@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+  <!--div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
     <div class="mb-1 breadcrumb-right">
       <div class="dropdown">
         <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,5 +50,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div-->
 </div>

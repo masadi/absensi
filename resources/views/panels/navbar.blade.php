@@ -78,7 +78,9 @@
             @endif
           </span>
           <span class="user-status">
-            Admin
+            @if (Auth::check())
+              {{ Auth::user()->roles->implode('display_name', '') }}
+            @endif
           </span>
         </div>
         <span class="avatar">

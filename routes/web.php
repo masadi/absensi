@@ -23,18 +23,20 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/', function () {
-        return view('dashboard');
+        return view('content.dashboard');
     })->name('dashboard');
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('content.dashboard');
     })->name('dashboard');
+    // Route Components
+    Route::get('absensi', [StaterkitController::class, 'absensi'])->name('absensi.index');
+    Route::get('rekapitulasi', [StaterkitController::class, 'rekapitulasi'])->name('absensi.rekapitulasi');
+    Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
+    Route::get('layouts/full', [StaterkitController::class, 'layout_full'])->name('layout-full');
+    Route::get('layouts/without-menu', [StaterkitController::class, 'without_menu'])->name('without-menu');
+    Route::get('layouts/empty', [StaterkitController::class, 'layout_empty'])->name('layout-empty');
+    Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name('layout-blank');
 });
-// Route Components
-Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
-Route::get('layouts/full', [StaterkitController::class, 'layout_full'])->name('layout-full');
-Route::get('layouts/without-menu', [StaterkitController::class, 'without_menu'])->name('without-menu');
-Route::get('layouts/empty', [StaterkitController::class, 'layout_empty'])->name('layout-empty');
-Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name('layout-blank');
 
 
 // locale Route

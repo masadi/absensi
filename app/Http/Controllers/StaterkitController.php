@@ -14,7 +14,14 @@ class StaterkitController extends Controller
         ];
         return view('/content/home', ['breadcrumbs' => $breadcrumbs]);
     }
-
+    public function absensi(Request $request){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Proses Absensi"]];
+        return view('content.absensi', ['breadcrumbs' => $breadcrumbs]);
+    }
+    public function rekapitulasi(Request $request){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Rekapitulasi"]];
+        return view('content.rekapitulasi', ['breadcrumbs' => $breadcrumbs]);
+    }
     // Layout collapsed menu
     public function collapsed_menu()
     {

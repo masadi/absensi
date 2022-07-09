@@ -4,10 +4,13 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\Semester;
+use App\Models\Ptk;
+use App\Models\Sekolah;
 
 class GenerateUser extends Command
 {
@@ -81,5 +84,23 @@ class GenerateUser extends Command
             'semester_id' => 20221,
             'user_type' => 'App\Models\User',
         ]);*/
+        $sekolah = Sekolah::create([
+            'sekolah_id' => Str::uuid(),
+            'npsn' => 123,
+            'nama' => 'Sekolah Contoh',
+            'status_sekolah' => 1,
+        ]);
+        Ptk::create([
+            'sekolah_id' => $sekolah->sekolah_id,
+            'user_id' => $user->id,
+            'nama' => 'PTK',
+            'nuptk' => 123,
+            'jenis_kelamin' => 'L',
+            'tempat_lahir' => 'Jakarta',
+            'tanggal_lahir' => date('Y-m-d'),
+            'jenis_ptk_id' => 1,
+            'agama_id' => 1,
+            'status_kepegawaian_id' => 1,
+        ]);
     }
 }
