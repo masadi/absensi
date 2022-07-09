@@ -3,15 +3,27 @@
 @section('title', 'Beranda')
 
 @section('vendor-style')
+@role('administrator', session('semester_id'))
+@else
 @mapstyles
+@endrole
 @endsection
 @section('content')
+@role('administrator', session('semester_id'))
+<livewire:statistik /> 
+@else
 <livewire:dashboard /> 
+@endrole
 @endsection
 @section('vendor-script')
+@role('administrator', session('semester_id'))
+@else
 @mapscripts
+@endrole
 @endsection
 @section('page-script')
+@role('administrator', session('semester_id'))
+@else
 <script src="{{ asset('leaflet/leaflet-providers.js') }}"></script>
 <script>
 var map;
@@ -22,17 +34,13 @@ window.addEventListener('LaravelMaps:MapInitialized', function (event) {
    markers = event.detail.markers;
    var service = event.detail.service;
    L.tileLayer.provider('Esri.WorldImagery').addTo(map);
-   //map.locate({setView: true, maxZoom: 16});
-   //console.log(markers[0]._latlng.lng);
-   //map.setView([48.8584, 2.2945], 16);
-   //console.log('map initialized', element, map, markers, service);
 });
 window.addEventListener('LaravelMaps:MarkerClicked', function (event) {
     var element = event.detail.element;
     var map = event.detail.map;
     var marker = event.detail.marker;
     var service = event.detail.service;
-    //console.log('marker clicked', element, map, marker, service);
+
 });
 const options = {
   enableHighAccuracy: true,
@@ -71,4 +79,5 @@ function getDistance(from, to)
   return ("Jarak Anda ke Sekolah: " + (from.distanceTo(to)).toFixed(0)/1000) + ' km';
 }
 </script>
+@endrole
 @endsection

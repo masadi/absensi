@@ -2,14 +2,14 @@
     <div class="card">
         <div class="card-body">
             @map([
-                'lat' => config('laravel-maps.map_center.lat'),
-                'lng' => config('laravel-maps.map_center.lng'),
+                'lat' => $lat,
+                'lng' => $lng,
                 'zoom' => 16,
                 'markers' => [
                     [
                         'title' => 'Nama Sekolah',
-                        'lat' => config('laravel-maps.map_center.lat'),
-                        'lng' => config('laravel-maps.map_center.lng'),
+                        'lat' => $lat,
+                        'lng' => $lng,
                         'popup' => '<p>Lokasi Sekolah</p>',
                     ],
                 ],

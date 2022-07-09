@@ -16,4 +16,7 @@ class Absen extends Model
 	public function absen_pulang(){
 		return $this->hasOne(Absen_pulang::class, 'absen_id', 'id');
 	}
+	public function ptk(){
+		return $this->hasOne(Ptk::class, 'ptk_id', 'ptk_id');
+	}
 }

@@ -3,10 +3,7 @@
 @section('title', 'Rekapitulasi')
 
 @section('content')
-@role('admin')
-@else
 <livewire:rekapitulasi /> 
-@endrole
 @endsection
 @section('page-script')
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>

@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Http\Request;
+use App\Models\Semester;
 
 class LoginSuccessful
 {
@@ -27,8 +28,10 @@ class LoginSuccessful
      */
     public function handle(Login $event)
     {
-        $semester = \App\Models\Semester::where('semester_id', $this->request->semester)->first();
+        $semester = Semester::where('semester_id', $this->request->semester)->first();
         $this->request->session()->put('semester_id', $semester->nama);
         $this->request->session()->put('semester_aktif', $this->request->semester);
+        $this->request->session()->put('sekolah_id', $event->user->sekolah_id);
+        $this->request->session()->put('nama_sekolah', $event->user->sekolah->nama);
     }
 }
