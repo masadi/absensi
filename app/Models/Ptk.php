@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Uuid;
 
 class Ptk extends Model
 {
     use HasFactory;
-    use Uuid;
     public $incrementing = false;
 	protected $table = 'ptk';
 	protected $primaryKey = 'ptk_id';
