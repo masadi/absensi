@@ -19,6 +19,8 @@ class Pengaturan extends Component
     public $scan_pulang_end_jam;
     public $scan_pulang_end_menit;
     public $jarak;
+    public $waktu_akhir_masuk_jam;
+    public $waktu_akhir_masuk_menit;
     public $showForm = FALSE;
     protected $rules = [
         'sekolah_id' => 'required',
@@ -30,6 +32,8 @@ class Pengaturan extends Component
         'scan_masuk_end_menit' => 'required',
         'scan_pulang_start_menit' => 'required',
         'scan_pulang_end_menit' => 'required',
+        'waktu_akhir_masuk_jam' => 'required',
+        'waktu_akhir_masuk_menit' => 'required',
         'jarak' => 'required',
     ];
     protected $messages = [
@@ -42,7 +46,10 @@ class Pengaturan extends Component
         'scan_masuk_end_menit.required' => 'Menit Absen Masuk Akhir tidak boleh kosong!',
         'scan_pulang_start_menit.required' => 'Menit Absen Pulang Awal tidak boleh kosong!!',
         'scan_pulang_end_menit.required' => 'Menit Absen Pulang Akhir tidak boleh kosong!',
+        'waktu_akhir_masuk_jam.required' => 'Jam Waktu Akhir Masuk tidak boleh kosong!',
+        'waktu_akhir_masuk_menit.required' => 'Menit Waktu Akhir Masuk tidak boleh kosong!',
         'jarak.required' => 'Jarak Maksimum tidak boleh kosong!',
+        
     ];
     public function change()
     {
@@ -55,6 +62,8 @@ class Pengaturan extends Component
         $this->scan_masuk_end_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_end_menit');
         $this->scan_pulang_start_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_start_menit');
         $this->scan_pulang_end_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_end_menit');
+        $this->waktu_akhir_masuk_jam = session('settings_'.$this->sekolah_id.'_waktu_akhir_masuk_jam');
+        $this->waktu_akhir_masuk_menit = session('settings_'.$this->sekolah_id.'_waktu_akhir_masuk_menit');
         $this->jarak = session('settings_'.$this->sekolah_id.'_jarak');
     }
     public function updated($propertyName)
@@ -71,12 +80,14 @@ class Pengaturan extends Component
         $this->scan_masuk_end_menit = session('settings_'.$this->sekolah_id.'_scan_masuk_end_menit');
         $this->scan_pulang_start_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_start_menit');
         $this->scan_pulang_end_menit = session('settings_'.$this->sekolah_id.'_scan_pulang_end_menit');
+        $this->waktu_akhir_masuk_jam = session('settings_'.$this->sekolah_id.'_waktu_akhir_masuk_jam');
+        $this->waktu_akhir_masuk_menit = session('settings_'.$this->sekolah_id.'_waktu_akhir_masuk_menit');
         $this->jarak = session('settings_'.$this->sekolah_id.'_jarak');
     }
     public function save()
     {
         $this->validate();
-        $data = ['scan_masuk_start_jam', 'scan_masuk_end_jam', 'scan_pulang_start_jam', 'scan_pulang_end_jam', 'scan_masuk_start_menit', 'scan_masuk_end_menit', 'scan_pulang_start_menit', 'scan_pulang_end_menit'];
+        $data = ['scan_masuk_start_jam', 'scan_masuk_end_jam', 'scan_pulang_start_jam', 'scan_pulang_end_jam', 'scan_masuk_start_menit', 'scan_masuk_end_menit', 'scan_pulang_start_menit', 'scan_pulang_end_menit', 'waktu_akhir_masuk_jam', 'waktu_akhir_masuk_menit'];
         foreach($data as $d){
             Setting::updateOrcreate(
                 [
@@ -122,6 +133,15 @@ class Pengaturan extends Component
             ],
             [
                 'value' => $this->scan_pulang_end_jam.':'.$this->scan_pulang_end_menit,
+            ]
+        );
+        Setting::updateOrcreate(
+            [
+                'key' => 'waktu_akhir_masuk',
+                'sekolah_id' => $this->sekolah_id,
+            ],
+            [
+                'value' => $this->waktu_akhir_masuk_jam.':'.$this->waktu_akhir_masuk_menit,
             ]
         );
         Setting::updateOrcreate(

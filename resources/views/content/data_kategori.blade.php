@@ -1,14 +1,23 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Rekapitulasi')
+@section('title', 'Pengaturan Kategori')
 
 @section('content')
-<livewire:rekapitulasi /> 
+<livewire:data-kategori />
 @endsection
 @section('page-script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 <script>
+    Livewire.on('close-modal', event => {
+        $('#addModal').toggle()
+        //$('.modal-backdrop').removeClass('show');
+        //$( ".modal-backdrop" ).remove();
+        //$('body').removeClass('modal-open');
+        $('#addModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    })
     var startDate,
         endDate,
     updateStartDate = function() {
@@ -22,19 +31,18 @@
         endPicker.setEndRange(endDate);
     },
     startPicker = new Pikaday({
-        field: document.getElementById('start'),
+        field: document.getElementById('tanggal_mulai'),
         format: 'DD-MM-YYYY',
         minDate: new Date(),
         maxDate: new Date(2020, 12, 31),
         onSelect: function() {
             startDate = this.getDate();
-            console.log(startDate);
             updateStartDate();
             Livewire.emit('getStart', startDate)
         }
     }),
     endPicker = new Pikaday({
-        field: document.getElementById('end'),
+        field: document.getElementById('tanggal_akhir'),
         format: 'DD-MM-YYYY',
         minDate: new Date(),
         maxDate: new Date(2020, 12, 31),

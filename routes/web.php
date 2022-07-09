@@ -34,11 +34,10 @@ Route::middleware([
     Route::get('rekapitulasi', [StaterkitController::class, 'rekapitulasi'])->name('absensi.rekapitulasi');
     Route::get('pengaturan', [StaterkitController::class, 'pengaturan'])->name('absensi.pengaturan');
     Route::get('data-sekolah', [StaterkitController::class, 'data_sekolah'])->name('absensi.data_sekolah');
-    Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
-    Route::get('layouts/full', [StaterkitController::class, 'layout_full'])->name('layout-full');
-    Route::get('layouts/without-menu', [StaterkitController::class, 'without_menu'])->name('without-menu');
-    Route::get('layouts/empty', [StaterkitController::class, 'layout_empty'])->name('layout-empty');
-    Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name('layout-blank');
+    Route::group(['prefix' => 'setting'], function(){
+        Route::get('/kategori', [StaterkitController::class, 'data_kategori'])->name('setting.data_kategori');
+        Route::get('/jam', [StaterkitController::class, 'data_jam'])->name('setting.data_jam');
+    });
 });
 
 

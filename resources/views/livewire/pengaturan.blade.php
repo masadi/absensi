@@ -82,6 +82,37 @@
                         </div>
                     </div>
                     <div class="row mb-2">
+                        <label for="waktu_akhir_masuk_jam" class="col-sm-2 col-form-label">Waktu Akhir Masuk</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-text" wire:ignore><i data-feather="clock"></i></span>
+                                <select class="form-select" id="waktu_akhir_masuk_jam" aria-label="Pilih Jam" wire:model="waktu_akhir_masuk_jam" aria-describedby="waktu_akhir_masuk_jamHelpInline">
+                                    <option selected>Pilih Jam</option>
+                                    @for ($i = 0; $i < 24; $i++)
+                                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
+                                    @endfor
+                                </select>
+                                <span class="input-group-text" wire:ignore>:</span>
+                                <select class="form-select" id="waktu_akhir_masuk_menit" aria-label="Pilih Jam" wire:model="waktu_akhir_masuk_menit" aria-describedby="waktu_akhir_masuk_menitHelpInline">
+                                    <option selected>Pilih Menit</option>
+                                    @for ($i = 0; $i < 60; $i++)
+                                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            @error('waktu_akhir_masuk_jam')
+                            <span id="waktu_akhir_masuk_jamHelpInline">
+                            <span class="text-danger">{{ $message }}</span>
+                            </span>
+                            @enderror
+                            @error('waktu_akhir_masuk_menit')
+                            <span id="waktu_akhir_masuk_menitHelpInline">
+                            <span class="text-danger">{{ $message }}</span>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-2">
                         <label for="scan_pulang_start_jam" class="col-sm-2 col-form-label">Jam Absen Pulang Awal</label>
                         <div class="col-sm-10">
                             <div class="input-group">

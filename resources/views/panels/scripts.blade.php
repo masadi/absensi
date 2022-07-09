@@ -17,11 +17,11 @@
 @endif
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
+@livewireScripts
 @yield('page-script')
 <!-- END: Page JS-->
 
 @stack('modals')
-@livewireScripts
 <script defer src="{{ asset(mix('vendors/js/alpinejs/alpine.js')) }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />
