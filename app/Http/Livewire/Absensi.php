@@ -104,14 +104,10 @@ class Absensi extends Component
             });
         })->first();*/
         $this->now = Carbon::now();
-        $masuk_start = $this->now->format('H');
-        $masuk_end = $masuk_start + 1;
-        $pulang_start = $masuk_end + 1;
-        $pulang_end = $pulang_start + 1;
-        $this->scan_masuk_start = Carbon::createFromTimeString($masuk_start.':00');
-        $this->scan_masuk_end = Carbon::createFromTimeString($masuk_end.':00');
-        $this->scan_pulang_start = Carbon::createFromTimeString($pulang_start.':00');
-        $this->scan_pulang_end = Carbon::createFromTimeString($pulang_end.':00');
+        $this->scan_masuk_start = Carbon::createFromTimeString(config('settings.scan_masuk_start'));
+        $this->scan_masuk_end = Carbon::createFromTimeString(config('settings.scan_masuk_end'));
+        $this->scan_pulang_start = Carbon::createFromTimeString(config('settings.scan_pulang_start'));
+        $this->scan_pulang_end = Carbon::createFromTimeString(config('settings.scan_pulang_end'));
         //public $disabled_masuk = '';
         //public $disabled_pulang = '';
         //dd($this->masuk);
