@@ -22,6 +22,10 @@ class StaterkitController extends Controller
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Rekapitulasi"]];
         return view('content.rekapitulasi', ['breadcrumbs' => $breadcrumbs]);
     }
+    public function ptk(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data PTK"]];
+        return view('content.ptk', ['breadcrumbs' => $breadcrumbs]);
+    }
     // Layout collapsed menu
     public function collapsed_menu()
     {

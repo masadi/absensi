@@ -30,6 +30,7 @@ Route::middleware([
     })->name('dashboard');
     // Route Components
     Route::get('absensi', [StaterkitController::class, 'absensi'])->name('absensi.index');
+    Route::get('ptk', [StaterkitController::class, 'ptk'])->name('absensi.ptk');
     Route::get('rekapitulasi', [StaterkitController::class, 'rekapitulasi'])->name('absensi.rekapitulasi');
     Route::get('layouts/collapsed-menu', [StaterkitController::class, 'collapsed_menu'])->name('collapsed-menu');
     Route::get('layouts/full', [StaterkitController::class, 'layout_full'])->name('layout-full');

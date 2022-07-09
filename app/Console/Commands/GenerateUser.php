@@ -115,6 +115,7 @@ class GenerateUser extends Command
                         'jenis_ptk_id' => $dapodik->jenis_ptk_id,
                         'agama_id' => $dapodik->agama_id,
                         'status_kepegawaian_id' => $dapodik->status_kepegawaian_id,
+                        'email' => $dapodik->email,
                     ]);
                     $this->info($ptk->nama. ' berhasil disimpan. ID:'.$ptk->sekolah_id);
                 }

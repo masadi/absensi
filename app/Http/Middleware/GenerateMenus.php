@@ -20,6 +20,7 @@ class GenerateMenus
         \Menu::make('MyNavBar', function ($menu) use ($text_class, $request){
             $menu->add('Beranda')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('home'))->link->attr($text_class);
             $menu->add('Profile', 'user/profile')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('user'))->link->attr($text_class);
+            $menu->add('PTK', 'ptk')->data('role', ['administrator'])->append('</span>')->prepend($this->icon('users'))->link->attr($text_class);
             $menu->add('Proses Absensi', 'absensi')->data('role', ['ptk', 'pd'])->append('</span>')->prepend($this->icon('user-check'))->link->attr($text_class);
             $menu->add('Rekapitulasi', 'rekapitulasi')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('list'))->link->attr($text_class);
             /*$menu->add('Page Layouts', 'javascript:void(0)')->data('role', ['administrator', 'ptk', 'pd'])->append('</span>')->prepend($this->icon('mail'))->link->attr($text_class);
