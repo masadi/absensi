@@ -10,11 +10,9 @@
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 <script>
     Livewire.on('close-modal', event => {
-        $('#addModal').toggle()
-        //$('.modal-backdrop').removeClass('show');
-        //$( ".modal-backdrop" ).remove();
-        //$('body').removeClass('modal-open');
         $('#addModal').modal('hide');
+        $('#editModal').modal('hide');
+        $('#deleteModal').modal('hide');
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
     })

@@ -16,7 +16,7 @@ class CreateJamTable extends Migration
         Schema::create('jam', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kategori_id')->constrained('kategori');
-            $table->decimal('aktif_jam', 1, 0);
+            //$table->decimal('aktif_jam', 1, 0);
             $table->time('scan_masuk_start', 0);
             $table->time('scan_masuk_end', 0);
             $table->time('waktu_akhir_masuk', 0);

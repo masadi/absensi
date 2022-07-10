@@ -7,8 +7,12 @@
 @endsection
 @section('page-script')
 <script>
-Livewire.on('close-modal', event => {
-    $('.modal-backdrop').removeClass('show');
-})
+    Livewire.on('close-modal', event => {
+        $('#addModal').modal('hide');
+        $('#editModal').modal('hide');
+        $('#deleteModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    })
 </script>
 @endsection

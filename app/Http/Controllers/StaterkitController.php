@@ -40,7 +40,7 @@ class StaterkitController extends Controller
     }
     public function data_jam(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Jam"]];
-        return view('content.data_jam', ['breadcrumbs' => $breadcrumbs]);
+        return view('content.data_jam', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
     }
     // Layout collapsed menu
     public function collapsed_menu()

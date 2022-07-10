@@ -11,6 +11,6 @@ class Jam extends Model
     protected $table = 'jam';
 	protected $guarded = [];
     public function kategori(){
-		return $this->hasOne(Kategori::class, 'kategori_id', 'id');
+		return $this->hasOne(Kategori::class, 'id', 'kategori_id');
 	}
 }

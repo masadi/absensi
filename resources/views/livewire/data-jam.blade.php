@@ -20,10 +20,10 @@
                 <thead>
                     <tr>
                         <th class="text-center align-middle" rowspan="2">Kategori</th>
-                        <th class="text-center align-middle" rowspan="2">Aktif Jam</th>
                         <th class="text-center" colspan="2">Masuk</th>
                         <th class="text-center align-middle" rowspan="2">Waktu Akhir Masuk</th>
                         <th class="text-center" colspan="2">Pulang</th>
+                        <th class="text-center align-middle" rowspan="2">Aksi</th>
                     </tr>
                     <tr>
                         <th class="text-center">Scan Awal</th>
@@ -37,12 +37,23 @@
                         @foreach($data_jam as $jam)
                         <tr>
                             <td>{{$jam->kategori->nama}}</td>
-                            <td>{{($jam->aktif_jam) ? 'Ya' : 'Tidak'}}</td>
-                            <td>{{$jam->scan_masuk_start}}</td>
-                            <td>{{$jam->scan_masuk_end}}</td>
-                            <td>{{$jam->waktu_akhir_masuk}}</td>
-                            <td>{{$jam->scan_pulang_start}}</td>
-                            <td>{{$jam->scan_pulang_end}}</td>
+                            <td class="text-center">{{$jam->scan_masuk_start}}</td>
+                            <td class="text-center">{{$jam->scan_masuk_end}}</td>
+                            <td class="text-center">{{$jam->waktu_akhir_masuk}}</td>
+                            <td class="text-center">{{$jam->scan_pulang_start}}</td>
+                            <td class="text-center">{{$jam->scan_pulang_end}}</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Aksi
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#detilModal" wire:click="getID({{$jam->id}})"><i data-feather="eye"></i> Detil</a></li>
+                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="getID({{$jam->id}})"><i data-feather="edit"></i> Edit</a></li>
+                                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal" wire:click="getID({{$jam->id}})"><i data-feather="trash-2"></i> Hapus</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                     @else
@@ -62,4 +73,8 @@
             </div>
         </div>
     </div>
+    @include('livewire.data-jam.create')
+    @include('livewire.data-jam.read')
+    @include('livewire.data-jam.update')
+    @include('livewire.data-jam.delete')
 </div>
