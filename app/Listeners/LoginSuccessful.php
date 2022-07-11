@@ -30,7 +30,7 @@ class LoginSuccessful
      */
     public function handle(Login $event)
     {
-        $semester = Semester::where('semester_id', $this->request->semester)->first();
+        $semester = Semester::where('periode_aktif', 1)->first();
         $this->request->session()->put('semester_id', $semester->nama);
         $this->request->session()->put('semester_aktif', $this->request->semester);
         $sekolah_id = ($event->user->sekolah_id) ? $event->user->sekolah_id : NULL;

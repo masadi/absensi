@@ -62,14 +62,14 @@ $semester = \App\Models\Semester::get();
                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
               </div>
             </div>
-            <div class="mb-1">
+            <!--div class="mb-1">
               <label for="semester" class="form-label">Tahun Pelajaran</label>
               <select name="semester" id="semester" class="form-control form-control-merge">
                 @foreach($semester as $s)
                 <option value="{{$s->semester_id}}" {{($s->periode_aktif) ? 'selected' : ''}}>{{$s->nama}}</option>
                 @endforeach
               </select>
-            </div>
+            </div-->
             <div class="mb-1">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="remember" name="remember" tabindex="3"

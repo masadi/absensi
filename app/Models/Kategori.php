@@ -23,4 +23,10 @@ class Kategori extends Model
         $this->attributes['nama'] = $value;
         $this->attributes['slug'] = Str::of($value)->slug('-');
     }
+    public function ptk(){
+		return $this->hasMany(Kategori_ptk::class, 'kategori_id', 'id');
+	}
+    public function hari(){
+		return $this->hasMany(Kategori_hari::class, 'kategori_id', 'id');
+	}
 }

@@ -74,8 +74,8 @@
                         <div class="row mb-2">
                             <label for="sekolah_id" class="col-sm-2 col-form-label">Sekolah</label>
                             <div class="col-sm-10">
-                                <select id="sekolah_id" class="form-select" wire:model="sekolah_id" aria-describedby="sekolah_idHelpInline">
-                                    <option selected>Pilih Sekolah</option>
+                                <select id="sekolah_id" class="form-select" wire:model="sekolah_id" wire:change="getPtk($event.target.value)" aria-describedby="sekolah_idHelpInline">
+                                    <option selected value="">Pilih Sekolah</option>
                                     <option value="">UMUM</option>
                                     @foreach($data_sekolah as $sekolah)
                                     <option value="{{ $sekolah->sekolah_id }}">{{ $sekolah->nama }}</option>
@@ -84,9 +84,9 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label for="is_libur" class="col-sm-2 col-form-label">Waktu Libur</label>
+                            <label for="is_libur" class="col-sm-2 col-form-label">Waktu Libur (Cuti)</label>
                             <div class="col-sm-10">
-                                <select id="is_libur" class="form-select" wire:model="is_libur" aria-describedby="is_liburHelpInline">
+                                <select id="is_libur" class="form-select" wire:model="is_libur" wire:change="isLibur($event.target.value)" aria-describedby="is_liburHelpInline">
                                     <option value="0">TIDAK</option>
                                     <option value="1">YA</option>
                                 </select>
@@ -99,6 +99,7 @@
                                 @error('nama') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                        @if($isLibur)
                         <div class="row mb-2">
                             <label for="tanggal_mulai" class="col-sm-2 col-form-label">Periode Libur</label>
                             <div class="col-sm-10">
@@ -107,6 +108,35 @@
                                     <span class="input-group-text">s/d</span>
                                     <input type="text" class="form-control" wire:change="getEnd($event.target.value)" placeholder="Tanggal Berakhir" aria-label="tanggal_akhir" id="tanggal_akhir" wire:model="tanggal_akhir">
                                 </div>
+                            </div>
+                        </div>
+                        @endif
+                        @if($data_ptk)
+                        <div class="row mb-2">
+                            <label for="ptk_id" class="col-sm-2 col-form-label">Pilih PTK</label>
+                            <div class="col-sm-10">
+                                @foreach($data_ptk as $urut => $ptk)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" wire:model="ptk_selected.{{$urut}}.ptk_id" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
+                                    <label class="form-check-label" for="{{$ptk->ptk_id}}">
+                                        {{$ptk->nama}}
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                        <div class="row mb-2">
+                            <label for="hari" class="col-sm-2 col-form-label">Pilih Hari</label>
+                            <div class="col-sm-10">
+                                @foreach($nama_hari as $key => $hari)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}">
+                                    <label class="form-check-label" for="{{$hari}}">
+                                        {{$hari}}
+                                    </label>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -131,8 +161,8 @@
                             <input type="hidden" wire:model="kategori_id">
                             <label for="sekolah_id" class="col-sm-2 col-form-label">Sekolah</label>
                             <div class="col-sm-10">
-                                <select id="sekolah_id" class="form-select" wire:model="sekolah_id" aria-describedby="sekolah_idHelpInline">
-                                    <option selected>Pilih Sekolah</option>
+                                <select id="sekolah_id" class="form-select" wire:model="sekolah_id" aria-describedby="sekolah_idHelpInline" disabled>
+                                    <option selected value="">Pilih Sekolah</option>
                                     <option value="">UMUM</option>
                                     @foreach($data_sekolah as $sekolah)
                                     <option value="{{ $sekolah->sekolah_id }}">{{ $sekolah->nama }}</option>
@@ -143,7 +173,7 @@
                         <div class="row mb-2">
                             <label for="is_libur" class="col-sm-2 col-form-label">Waktu Libur</label>
                             <div class="col-sm-10">
-                                <select id="is_libur" class="form-select" wire:model="is_libur" aria-describedby="is_liburHelpInline">
+                                <select id="is_libur" class="form-select" wire:model="is_libur" wire:change="isLibur($event.target.value)" aria-describedby="is_liburHelpInline">
                                     <option value="0">TIDAK</option>
                                     <option value="1">YA</option>
                                 </select>
@@ -155,6 +185,7 @@
                                 <input type="text" class="form-control" wire:model="nama">
                             </div>
                         </div>
+                        @if($isLibur)
                         <div class="row mb-2">
                             <label for="tanggal_mulai" class="col-sm-2 col-form-label">Periode Libur</label>
                             <div class="col-sm-10">
@@ -163,6 +194,35 @@
                                     <span class="input-group-text">s/d</span>
                                     <input type="text" class="form-control" wire:change="getEnd($event.target.value)" placeholder="Tanggal Berakhir" aria-label="tanggal_akhir" id="tanggal_akhir" wire:model="tanggal_akhir">
                                 </div>
+                            </div>
+                        </div>
+                        @endif
+                        @if($data_ptk)
+                        <div class="row mb-2">
+                            <label for="ptk_id" class="col-sm-2 col-form-label">Pilih PTK</label>
+                            <div class="col-sm-10">
+                                @foreach($data_ptk as $urut => $ptk)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" wire:model="ptk_selected.{{$urut}}.ptk_id" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        {{$ptk->nama}}
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                        <div class="row mb-2">
+                            <label for="hari" class="col-sm-2 col-form-label">Pilih Hari</label>
+                            <div class="col-sm-10">
+                                @foreach($nama_hari as $key => $hari)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}">
+                                    <label class="form-check-label" for="{{$hari}}">
+                                        {{$hari}}
+                                    </label>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

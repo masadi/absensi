@@ -16,6 +16,31 @@
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
     })
+    var addModal = document.getElementById('addModal'),
+        editModal = document.getElementById('editModal'),
+        deleteModal = document.getElementById('deleteModal'),
+        detilModal = document.getElementById('detilModal');
+    addModal.addEventListener('show.bs.modal', function (event) {
+        Livewire.emit('resetData')
+    })
+    editModal.addEventListener('hide.bs.modal', function (event) {
+        Livewire.emit('resetData')
+    })
+    deleteModal.addEventListener('hide.bs.modal', function (event) {
+        Livewire.emit('resetData')
+    })
+    detilModal.addEventListener('hide.bs.modal', function (event) {
+        Livewire.emit('resetData')
+    })
+    editModal.addEventListener('show.bs.modal', function (event) {
+        Livewire.emit('editModal')
+    })
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        Livewire.emit('deleteModal')
+    })
+    detilModal.addEventListener('show.bs.modal', function (event) {
+        Livewire.emit('detilModal')
+    })
     var startDate,
         endDate,
     updateStartDate = function() {
