@@ -19,6 +19,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th class="text-center align-middle" rowspan="2">Lembaga</th>
                         <th class="text-center align-middle" rowspan="2">Kategori</th>
                         <th class="text-center" colspan="2">Masuk</th>
                         <th class="text-center align-middle" rowspan="2">Waktu Akhir Masuk</th>
@@ -36,6 +37,7 @@
                     @if($data_jam->count())
                         @foreach($data_jam as $jam)
                         <tr>
+                            <td>{{($jam->kategori->sekolah_id) ? $jam->kategori->sekolah->nama : 'UMUM'}}</td>
                             <td>{{$jam->kategori->nama}}</td>
                             <td class="text-center">{{$jam->scan_masuk_start}}</td>
                             <td class="text-center">{{$jam->scan_masuk_end}}</td>
