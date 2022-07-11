@@ -203,8 +203,8 @@
                             <div class="col-sm-10">
                                 @foreach($data_ptk as $urut => $ptk)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault" wire:model="ptk_selected.{{$urut}}.ptk_id" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" wire:model="ptk_selected.{{$urut}}.ptk_id" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
+                                    <label class="form-check-label" for="{{$ptk->ptk_id}}">
                                         {{$ptk->nama}}
                                     </label>
                                 </div>
@@ -217,7 +217,7 @@
                             <div class="col-sm-10">
                                 @foreach($nama_hari as $key => $hari)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}">
+                                    <input class="form-check-input" type="checkbox" wire:model.lazy="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}" @if($hari_selected && $hari_selected->contains($hari)) checked @endif>
                                     <label class="form-check-label" for="{{$hari}}">
                                         {{$hari}}
                                     </label>

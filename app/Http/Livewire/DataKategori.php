@@ -160,6 +160,7 @@ class DataKategori extends Component
     }
     public function getID($id){
         $this->kategori_id = $id;
+        $this->emit('getKategoriID', $id);
         //$this->setData('view');
     }
     /*public function updating($name, $value)
@@ -209,8 +210,16 @@ class DataKategori extends Component
             if($find->sekolah_id){
                 $this->data_ptk = Ptk::where('sekolah_id', $find->sekolah_id)->get();
             }
-            $this->hari_selected = ($find->hari->count()) ? $find->hari : [];
-            $this->ptk_selected = ($find->ptk->count()) ? $find->ptk : [];
+            if($find->hari->count()){
+                foreach($find->hari as $hari){
+                    $result[] = $hari->nama;
+                }
+                $this->hari_selected = collect($result);
+            } else {
+                $this->hari_selected = collect([]);
+            }
+            //$this->hari_selected = ($find->hari->count()) ? $find->hari()->select('nama')->get() : [];
+            //$this->ptk_selected = ($find->ptk->count()) ? $find->ptk()->select('ptk_id')->get() : [];
         }
     }
 }
