@@ -130,8 +130,7 @@ class Absensi extends Component
     }
     */
     public function pulang_awal(){
-        $this->alert('', 'Isi Formulir Pulang Lebih Awal', [
-            'text' => 'Alasan pulang cepat dan unggah dokumen pendukung (jika ada)',
+        $this->alert('', 'Isi Formulir Pulang Cepat', [
             'showConfirmButton' => true,
             'confirmButtonText' => 'Ya',
             'showCancelButton' => true,
@@ -150,6 +149,7 @@ class Absensi extends Component
             }",
             'timer' => null,
             'html' => '
+                <p>Isi keterangan pulang cepat dan unggah dokumen pendukung (jika ada)</p>
                 <form class="was-validated">
                     <textarea id="swal-input1" class="form-control mb-2 is-invalid" placeholder="Keterangan pulang cepat" required></textarea>
                     <div class="invalid-feedback d-none">
