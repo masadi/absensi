@@ -16,6 +16,8 @@ class CreateAbsenPulangTable extends Migration
         Schema::create('absen_pulang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('absen_id')->constrained('absen');
+            $table->string('keterangan')->nullable();
+            $table->string('dokumen')->nullable();
             $table->timestamps();
         });
     }

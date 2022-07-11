@@ -28,7 +28,7 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
-        if(session('sekolah_id')){
+        /*if(session('sekolah_id')){
             foreach (Setting::where('sekolah_id', session('sekolah_id'))->get() as $setting) {
                 //$this->request->session()->put('settings_'.session('sekolah_id').'_'.$setting->key, $setting->value);
                 $this->request->session()->forget('settings_'.$setting->sekolah_id.'_'.$setting->key);
@@ -38,7 +38,7 @@ class LogSuccessfulLogout
                 //$this->request->session()->put('settings_'.session('sekolah_id').'_'.$setting->key, $setting->value);
                 $this->request->session()->forget('settings_'.$setting->sekolah_id.'_'.$setting->key);
             }
-        }
+        }*/
         $this->request->session()->forget(['semester_id', 'semester_aktif', 'sekolah_id', 'nama_sekolah']);
     }
 }

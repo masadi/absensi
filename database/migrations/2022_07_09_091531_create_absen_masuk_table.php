@@ -16,6 +16,8 @@ class CreateAbsenMasukTable extends Migration
         Schema::create('absen_masuk', function (Blueprint $table) {
             $table->id();
             $table->foreignId('absen_id')->constrained('absen');
+            $table->string('keterangan')->nullable();
+            $table->string('dokumen')->nullable();
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ use App\Models\Team;
 use App\Models\Semester;
 use App\Models\Ptk;
 use App\Models\Sekolah;
+use App\Models\Setting;
 
 class GenerateUser extends Command
 {
@@ -46,12 +47,22 @@ class GenerateUser extends Command
      */
     public function handle()
     {
+        Setting::updateOrCreate([
+            'key' => 'jarak',
+            'value' => '1000000'
+        ]);
         $npsn = ['69762158', '20607013', '20606862', '20613916'];
         $semester = Semester::updateOrCreate([
             'semester_id' => 20221,
             'nama' => '2022/2023 Ganjil',
             'semester' => 1,
             'periode_aktif' => 1,
+        ]);
+        Semester::updateOrCreate([
+            'semester_id' => 20222,
+            'nama' => '2022/2023 Genap',
+            'semester' => 2,
+            'periode_aktif' => 0,
         ]);
         $team = Team::updateOrCreate([
             'name' => $semester->nama,
@@ -99,6 +110,7 @@ class GenerateUser extends Command
                     'status_sekolah' => $sekolah->status_sekolah,
                 ]
             );
+            $this->call('generate:dummy', ['sekolah_id' => $sekolah_id]);
             $response = Http::withHeaders([
                 'x-api-key' => $sekolah_id,
             ])->withBasicAuth('admin', '1234')->asForm()->post('http://103.40.55.242/erapor_server/api/ptk', [

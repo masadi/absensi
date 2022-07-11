@@ -38,7 +38,7 @@ class LoginSuccessful
         $this->request->session()->put('sekolah_id', $sekolah_id);
         $this->request->session()->put('nama_sekolah', $nama_sekolah);
         //dd($sekolah_id);
-        if($sekolah_id){
+        /*if($sekolah_id){
             foreach (Setting::where('sekolah_id', $sekolah_id)->get() as $setting) {
                 //Config::set('settings.'.$sekolah_id.'.'.$setting->key, $setting->value);
                 $this->request->session()->put('settings_'.$sekolah_id.'_'.$setting->key, $setting->value);
@@ -48,6 +48,6 @@ class LoginSuccessful
                 //$this->request->session()->put('settings_'.session('sekolah_id').'_'.$setting->key, $setting->value);
                 $this->request->session()->put('settings_'.$setting->sekolah_id.'_'.$setting->key, $setting->value);
             }
-        }
+        }*/
     }
 }

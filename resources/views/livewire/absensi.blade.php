@@ -6,8 +6,8 @@
                     {{$status}}
                 </div>
             @endif
-            <p>Jarak Pengguna: {{$jarak_pengguna}}</p>
-            <p>Jarak Pengaturan: {{$jarak_pengaturan}}</p>
+            <!--p>Jarak Pengguna: {{$jarak_pengguna}}</p>
+            <p>Jarak Pengaturan: {{$jarak_pengaturan}}</p-->
             <div class="row">
                 <div class="col-6">
                     <div class="d-grid gap-2">

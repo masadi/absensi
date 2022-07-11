@@ -28,8 +28,8 @@
                     @foreach($data_sekolah as $sekolah)
                     <tr>
                         <td>{{$sekolah->nama}}</td>
-                        <td>{{$sekolah->npsn}}</td>
-                        <td>{{$sekolah->ptk_count}}</td>
+                        <td class="text-center">{{$sekolah->npsn}}</td>
+                        <td class="text-center">{{$sekolah->ptk_count}}</td>
                     </tr>
                     @endforeach
                 </tbody>

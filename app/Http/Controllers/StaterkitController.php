@@ -42,6 +42,10 @@ class StaterkitController extends Controller
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Jam"]];
         return view('content.data_jam', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
     }
+    public function settings(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Umum"]];
+        return view('content.settings', ['breadcrumbs' => $breadcrumbs]);
+    }
     // Layout collapsed menu
     public function collapsed_menu()
     {
