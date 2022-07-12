@@ -34,6 +34,7 @@ class DataKategori extends Component
     public $nama_hari = ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"];
     public $hari_selected;
     public $ptk_selected;
+    public $editMode = false;
     public function getPtk($sekolah_id){
         if($sekolah_id){
             $this->data_ptk = Ptk::where('sekolah_id', $sekolah_id)->get();
@@ -145,6 +146,7 @@ class DataKategori extends Component
         $this->reset(['kategori_id', 'sekolah_id', 'nama', 'nama', 'is_libur', 'tanggal_mulai', 'tanggal_akhir', 'sekolah', 'isLibur', 'data_ptk', 'nama_hari', 'hari_selected', 'ptk_selected']);
     }
     public function editModal(){
+        $this->editMode = TRUE;
         $this->setData('view');
         //dd($this->kategori_id);
     }

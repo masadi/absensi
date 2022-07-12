@@ -125,7 +125,6 @@
                                 @endforeach
                             </div>
                         </div>
-                        @endif
                         <div class="row mb-2">
                             <label for="hari" class="col-sm-2 col-form-label">Pilih Hari</label>
                             <div class="col-sm-10">
@@ -139,6 +138,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -211,13 +211,12 @@
                                 @endforeach
                             </div>
                         </div>
-                        @endif
                         <div class="row mb-2">
                             <label for="hari" class="col-sm-2 col-form-label">Pilih Hari</label>
                             <div class="col-sm-10">
                                 @foreach($nama_hari as $key => $hari)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model.lazy="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}" @if($hari_selected && $hari_selected->contains($hari)) checked @endif>
+                                    <input class="form-check-input" type="checkbox" wire:model.lazy="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}" @if($hari_selected && $editMode && $hari_selected->contains($hari)) checked @endif>
                                     <label class="form-check-label" for="{{$hari}}">
                                         {{$hari}}
                                     </label>
@@ -225,6 +224,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
