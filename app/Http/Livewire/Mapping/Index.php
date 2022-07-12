@@ -99,16 +99,16 @@ class Index extends Component
     }
     protected $rules = [
         'nama' => 'required',
-        'scan_masuk_start_jam' => 'required',
-        'scan_masuk_end_jam' => 'required',
-        'scan_pulang_start_jam' => 'required',
-        'scan_pulang_end_jam' => 'required',
-        'scan_masuk_start_menit' => 'required',
-        'scan_masuk_end_menit' => 'required',
-        'scan_pulang_start_menit' => 'required',
-        'scan_pulang_end_menit' => 'required',
-        'waktu_akhir_masuk_jam' => 'required',
-        'waktu_akhir_masuk_menit' => 'required',
+        'scan_masuk_start_jam' => 'required|date_format:H',
+        'scan_masuk_end_jam' => 'required|date_format:H',
+        'scan_pulang_start_jam' => 'required|date_format:H',
+        'scan_pulang_end_jam' => 'required|date_format:H',
+        'scan_masuk_start_menit' => 'required|date_format:i',
+        'scan_masuk_end_menit' => 'required|date_format:i',
+        'scan_pulang_start_menit' => 'required|date_format:i',
+        'scan_pulang_end_menit' => 'required|date_format:i',
+        'waktu_akhir_masuk_jam' => 'required|date_format:H',
+        'waktu_akhir_masuk_menit' => 'required|date_format:i',
         'ptk_selected.*.ptk_id' => 'nullable',
         'hari_selected.*.nama' => 'nullable'
     ];
@@ -124,6 +124,16 @@ class Index extends Component
         'scan_pulang_start_menit.required' => 'Menit Mulai Scan Pulang tidak boleh kosong!',
         'scan_pulang_end_jam.required' => 'Jam Akhir Scan Pulang tidak boleh kosong!',
         'scan_pulang_end_menit.required' => 'Menit Akhir Scan Pulang tidak boleh kosong!',
+        'scan_masuk_start_jam.date_format' => 'Jam Mulai Scan Masuk format salah!',
+        'scan_masuk_start_menit.date_format' => 'Menit Mulai Scan Masuk format salah!',
+        'scan_masuk_end_jam.date_format' => 'Jam Akhir Scan Masuk format salah!!',
+        'scan_masuk_end_menit.date_format' => 'Menit Akhir Scan Masuk format salah!',
+        'waktu_akhir_masuk_jam.date_format' => 'Jam Waktu Akhir Masuk format salah!!',
+        'waktu_akhir_masuk_menit.date_format' => 'Menit Waktu Akhir Masuk format salah!',
+        'scan_pulang_start_jam.date_format' => 'Jam Mulai Scan Pulang format salah!!',
+        'scan_pulang_start_menit.date_format' => 'Menit Mulai Scan Pulang format salah!',
+        'scan_pulang_end_jam.date_format' => 'Jam Akhir Scan Pulang format salah!',
+        'scan_pulang_end_menit.date_format' => 'Menit Akhir Scan Pulang format salah!',
     ];
     public function store(){
         $this->validate();
@@ -219,6 +229,7 @@ class Index extends Component
     public function setData($action){
         $find = Kategori::find($this->kategori_id);
         if($action == 'update'){
+            $this->validate();
             $find->sekolah_id = $this->sekolah_id;
             $find->nama = $this->nama;
             $find->is_libur = $this->is_libur;
@@ -226,22 +237,30 @@ class Index extends Component
             $find->tanggal_akhir = ($this->tanggal_akhir) ? date('Y-m-d', strtotime($this->tanggal_akhir)) : NULL;
             $find->save();
             if($this->ptk_selected){
+                $ptk_id_delete = [];
                 foreach($this->ptk_selected as $ptk_id){
-                    $ptk_id_delete[] = $ptk_id['ptk_id'];
-                    Kategori_ptk::updateOrCreate([
-                        'ptk_id' => $ptk_id['ptk_id'],
-                        'kategori_id' => $find->id,
-                    ]);
+                    if($ptk_id['ptk_id']){
+                        $ptk_id_delete[] = $ptk_id['ptk_id'];
+                        Kategori_ptk::updateOrCreate([
+                            'ptk_id' => $ptk_id['ptk_id'],
+                            'kategori_id' => $find->id,
+                        ]);
+                    }
                 }
-                Kategori_ptk::where('kategori_id', $find->id)->whereNotIn('ptk_id', $ptk_id_delete)->delete();
+                if($ptk_id_delete){
+                    Kategori_ptk::where('kategori_id', $find->id)->whereNotIn('ptk_id', $ptk_id_delete)->delete();
+                }
             }
             if($this->hari_selected){
+                $hari_delete = [];
                 foreach($this->hari_selected as $hari){
-                    $hari_delete[] = $ptk_id['ptk_id'];
-                    Kategori_hari::updateOrCreate([
-                        'nama' => $hari['nama'],
-                        'kategori_id' => $find->id,
-                    ]);
+                    if($hari['nama']){
+                        $hari_delete[] = $hari['nama'];
+                        Kategori_hari::updateOrCreate([
+                            'nama' => $hari['nama'],
+                            'kategori_id' => $find->id,
+                        ]);
+                    }
                 }
                 Kategori_hari::where('kategori_id', $find->id)->whereNotIn('nama', $hari_delete)->delete();
             }
