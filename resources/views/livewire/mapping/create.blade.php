@@ -67,9 +67,9 @@
                             <div class="col-sm-9">
                                 @foreach($nama_hari as $key => $hari)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}">
-                                    <label class="form-check-label" for="{{$hari}}">
-                                        {{$hari}}
+                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari->nama}}" id="{{$hari->nama}}">
+                                    <label class="form-check-label" for="{{$hari->nama}}">
+                                        {{$hari->nama}}
                                     </label>
                                 </div>
                                 @endforeach

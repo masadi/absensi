@@ -23,12 +23,17 @@
         console.log('addModal');
         Livewire.emit('cancel')
     })
-    /*Livewire.on('close-modal', event => {
-        $('#addModal').modal('hide');
+    detilModal.addEventListener('hidden.bs.modal', function (event) {
+        console.log('detilModal');
+        Livewire.emit('cancel')
+    })
+    Livewire.on('close-modal', event => {
         $('#editModal').modal('hide');
+        $('#addModal').modal('hide');
         $('#deleteModal').modal('hide');
+        /*$('#editModal').modal('hide');
         $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-    })*/
+        $('.modal-backdrop').remove();*/
+    })
 </script>
 @endsection

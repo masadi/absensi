@@ -67,9 +67,9 @@
                             <div class="col-sm-9">
                                 @foreach($nama_hari as $key => $hari)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari}}" id="{{$hari}}">
-                                    <label class="form-check-label" for="{{$hari}}">
-                                        {{$hari}}
+                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari->nama}}" id="{{$hari->nama}}">
+                                    <label class="form-check-label" for="{{$hari->nama}}">
+                                        {{$hari->nama}}
                                     </label>
                                 </div>
                                 @endforeach
@@ -233,7 +233,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click.prevent="cancel()">Batal</button>
-                        <button type="submit" class="btn btn-primary" wire:click.prevent="store()">Perbaharui</button>
+                        <button type="submit" class="btn btn-primary" wire:click.prevent="update()">Perbaharui</button>
                     </div>
                 </div>
             </div>

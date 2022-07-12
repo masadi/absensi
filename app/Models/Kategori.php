@@ -12,7 +12,8 @@ class Kategori extends Model
     protected $table = 'kategori';
 	protected $guarded = [];
     public function jam(){
-		return $this->hasMany(Jam::class, 'kategori_id', 'id');
+		return $this->hasOne(Jam::class, 'kategori_id', 'id');
+        //return $this->hasMany(Jam::class, 'kategori_id', 'id');
 	}
     public function sekolah()
     {
