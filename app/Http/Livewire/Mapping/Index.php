@@ -33,21 +33,21 @@ class Index extends Component
     public $sekolah;
     public $isLibur;
     public $data_ptk = [];
-    public $hari_selected;
-    public $ptk_selected;
+    public $hari_selected = [];
+    public $ptk_selected = [];
     public $editMode = false;
 
     //jam
-    public $scan_masuk_start_jam;
-    public $scan_masuk_start_menit;
-    public $scan_masuk_end_jam;
-    public $scan_masuk_end_menit;
-    public $waktu_akhir_masuk_jam;
-    public $waktu_akhir_masuk_menit;
-    public $scan_pulang_start_jam;
-    public $scan_pulang_start_menit;
-    public $scan_pulang_end_jam;
-    public $scan_pulang_end_menit;
+    public $scan_masuk_start_jam = '05';
+    public $scan_masuk_start_menit = '00';
+    public $scan_masuk_end_jam = '08';
+    public $scan_masuk_end_menit = '00';
+    public $waktu_akhir_masuk_jam = '06';
+    public $waktu_akhir_masuk_menit = '45';
+    public $scan_pulang_start_jam = '08';
+    public $scan_pulang_start_menit = '00';
+    public $scan_pulang_end_jam = '21';
+    public $scan_pulang_end_menit = '00';
     public $kategori;
     //db
     public $scan_masuk_start;
@@ -109,8 +109,8 @@ class Index extends Component
         'scan_pulang_end_menit' => 'required|date_format:i',
         'waktu_akhir_masuk_jam' => 'required|date_format:H',
         'waktu_akhir_masuk_menit' => 'required|date_format:i',
-        'ptk_selected.*.ptk_id' => 'nullable',
-        'hari_selected.*.nama' => 'nullable'
+        //'ptk_selected.*.ptk_id' => 'nullable',
+        //'hari_selected.*.nama' => 'nullable'
     ];
     protected $messages = [
         'nama.required' => 'Nama Kategori tidak boleh kosong!!',
@@ -147,7 +147,7 @@ class Index extends Component
         if($this->ptk_selected){
             foreach($this->ptk_selected as $ptk_id){
                 Kategori_ptk::create([
-                    'ptk_id' => $ptk_id['ptk_id'],
+                    'ptk_id' => $ptk_id,
                     'kategori_id' => $kategori->id,
                 ]);
             }
@@ -155,7 +155,7 @@ class Index extends Component
         if($this->hari_selected){
             foreach($this->hari_selected as $hari){
                 Kategori_hari::create([
-                    'nama' => $hari['nama'],
+                    'nama' => $hari,
                     'kategori_id' => $kategori->id,
                 ]);
             }
@@ -176,14 +176,14 @@ class Index extends Component
     public function update(){
         $this->setData('update');
         $this->close();
-        $this->alert('info', 'Data kategori berhasil diperbaharui', [
+        $this->alert('info', 'Data Jam berhasil diperbaharui', [
             'position' => 'center'
         ]);
     }
     public function delete(){
         $this->setData('delete');
         $this->close();
-        $this->alert('info', 'Data kategori berhasil dihapus', [
+        $this->alert('info', 'Data Jam berhasil dihapus', [
             'position' => 'center'
         ]);
     }
@@ -239,13 +239,11 @@ class Index extends Component
             if($this->ptk_selected){
                 $ptk_id_delete = [];
                 foreach($this->ptk_selected as $ptk_id){
-                    if($ptk_id['ptk_id']){
-                        $ptk_id_delete[] = $ptk_id['ptk_id'];
-                        Kategori_ptk::updateOrCreate([
-                            'ptk_id' => $ptk_id['ptk_id'],
-                            'kategori_id' => $find->id,
-                        ]);
-                    }
+                    $ptk_id_delete[] = $ptk_id;
+                    Kategori_ptk::updateOrCreate([
+                        'ptk_id' => $ptk_id,
+                        'kategori_id' => $find->id,
+                    ]);
                 }
                 if($ptk_id_delete){
                     Kategori_ptk::where('kategori_id', $find->id)->whereNotIn('ptk_id', $ptk_id_delete)->delete();
@@ -254,13 +252,11 @@ class Index extends Component
             if($this->hari_selected){
                 $hari_delete = [];
                 foreach($this->hari_selected as $hari){
-                    if($hari['nama']){
-                        $hari_delete[] = $hari['nama'];
-                        Kategori_hari::updateOrCreate([
-                            'nama' => $hari['nama'],
-                            'kategori_id' => $find->id,
-                        ]);
-                    }
+                    $hari_delete[] = $hari;
+                    Kategori_hari::updateOrCreate([
+                        'nama' => $hari,
+                        'kategori_id' => $find->id,
+                    ]);
                 }
                 Kategori_hari::where('kategori_id', $find->id)->whereNotIn('nama', $hari_delete)->delete();
             }
@@ -279,7 +275,6 @@ class Index extends Component
         } elseif($action == 'delete'){
             $find->delete();
         } else {
-            //$this->reset(['sekolah', 'kategori_id', 'sekolah_id', 'nama', 'is_libur', 'tanggal_mulai', 'tanggal_akhir', 'hari_selected', 'ptk_selected']);
             $this->sekolah_id = $find->sekolah_id; 
             $this->nama = $find->nama; 
             $this->is_libur = $find->is_libur; 
@@ -292,13 +287,14 @@ class Index extends Component
             if($find->ptk->count()){
                 foreach($find->ptk as $ptk){
                     $result_ptk[] = $ptk->ptk->nama;
-                    $result_ptk_selected[] = [
+                    $result_ptk_selected[] = $ptk->ptk_id;
+                    /*$result_ptk_selected[] = [
                         'ptk_id' => $ptk->ptk_id,
                         'nama' => $ptk->ptk->nama,
-                    ];
+                    ];*/
                 }
                 $this->kategori_ptk = collect($result_ptk);
-                $this->ptk_selected = collect($result_ptk_selected);
+                $this->ptk_selected = $result_ptk_selected;//collect($result_ptk_selected);
             } else {
                 $this->kategori_ptk = '';
                 $this->ptk_selected = [];
@@ -306,12 +302,13 @@ class Index extends Component
             if($find->hari->count()){
                 foreach($find->hari as $hari){
                     $result_hari[] = $hari->nama;
-                    $result_hari_selected[] = [
+                    $result_hari_selected[] = $hari->nama;
+                    /*[
                         'nama' => $hari->nama,
-                    ];
+                    ];*/
                 }
                 $this->kategori_hari = collect($result_hari);
-                $this->hari_selected = collect($result_hari_selected);
+                $this->hari_selected = $result_hari_selected;//collect($result_hari_selected);
             } else {
                 $this->kategori_hari = '';
                 $this->hari_selected = [];

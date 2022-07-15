@@ -53,7 +53,7 @@
                             <div class="col-sm-9">
                                 @foreach($data_ptk as $urut => $ptk)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="ptk_selected.{{$urut}}.ptk_id" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
+                                    <input class="form-check-input" type="checkbox" wire:model="ptk_selected" value="{{$ptk->ptk_id}}" id="{{$ptk->ptk_id}}">
                                     <label class="form-check-label" for="{{$ptk->ptk_id}}">
                                         {{$ptk->nama}}
                                     </label>
@@ -67,7 +67,7 @@
                             <div class="col-sm-9">
                                 @foreach($nama_hari as $key => $hari)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected.{{$key}}.nama" value="{{$hari->nama}}" id="{{$hari->nama}}">
+                                    <input class="form-check-input" type="checkbox" wire:model="hari_selected" value="{{$hari->nama}}" id="{{$hari->nama}}">
                                     <label class="form-check-label" for="{{$hari->nama}}">
                                         {{$hari->nama}}
                                     </label>
