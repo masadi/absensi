@@ -10,7 +10,8 @@
     var addModal = document.getElementById('addModal'),
         editModal = document.getElementById('editModal'),
         deleteModal = document.getElementById('deleteModal'),
-        detilModal = document.getElementById('detilModal');
+        detilModal = document.getElementById('detilModal'),
+        copyModal = document.getElementById('copyModal');
     editModal.addEventListener('hide.bs.modal', function (event) {
         console.log('editModal');
         Livewire.emit('cancel')
@@ -27,12 +28,16 @@
         console.log('detilModal');
         Livewire.emit('cancel')
     })
+    copyModal.addEventListener('hidden.bs.modal', function (event) {
+        console.log('copyModal');
+        Livewire.emit('cancel')
+    })
     Livewire.on('close-modal', event => {
         $('#editModal').modal('hide');
         $('#addModal').modal('hide');
         $('#deleteModal').modal('hide');
-        /*$('#editModal').modal('hide');
-        $('body').removeClass('modal-open');
+        $('#copyModal').modal('hide');
+        /*$('body').removeClass('modal-open');
         $('.modal-backdrop').remove();*/
     })
 </script>

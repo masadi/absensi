@@ -38,6 +38,7 @@
                             <td class="text-center">{{($kategori->tanggal_akhir) ?? '-'}}</td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#copyModal" wire:click="getID({{$kategori->id}})">Copy</button>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#detilModal" wire:click="getID({{$kategori->id}})">Detil</button>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="getID({{$kategori->id}})">Edit</button>
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal" wire:click="getID({{$kategori->id}})">Hapus</button>
@@ -66,4 +67,5 @@
     @include('livewire.mapping.read')
     @include('livewire.mapping.update')
     @include('livewire.mapping.delete')
+    @include('livewire.mapping.copy')
 </div>

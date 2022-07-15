@@ -1,10 +1,10 @@
 <div>
-    <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+    <div wire:ignore.self class="modal fade" id="copyModal" tabindex="-1" aria-labelledby="copyModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Perbaharui Data Jam</h5>
+                    <h5 class="modal-title" id="copyModalLabel">Copy Data Jam</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -12,8 +12,7 @@
                         <label for="sekolah_id" class="col-sm-3 col-form-label">Sekolah</label>
                         <div class="col-sm-9">
                             <select id="sekolah_id" class="form-select" wire:model="sekolah_id"
-                                wire:change="getPtk($event.target.value)" aria-describedby="sekolah_idHelpInline"
-                                disabled>
+                                wire:change="getPtk($event.target.value)" aria-describedby="sekolah_idHelpInline">
                                 <option selected value="">Pilih Sekolah</option>
                                 <option value="">UMUM</option>
                                 @foreach ($data_sekolah as $sekolah)
@@ -272,9 +271,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        wire:click.prevent="cancel()">Batal</button>
-                    <button type="submit" class="btn btn-primary" wire:click.prevent="update()">Perbaharui</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary" wire:click.prevent="store()">Simpan</button>
                 </div>
             </div>
         </div>

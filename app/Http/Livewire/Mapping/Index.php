@@ -206,14 +206,11 @@ class Index extends Component
     public function editModal(){
         $this->editMode = TRUE;
         $this->setData('view');
-        //dd($this->kategori_id);
     }
     public function deleteModal(){
-        //dd($this->kategori_id);
     }
     public function detilModal(){
         $this->setData('view');
-        //dd($this->kategori_id);
     }
     public function resetData(){
         $this->resetInputFields();
@@ -288,13 +285,9 @@ class Index extends Component
                 foreach($find->ptk as $ptk){
                     $result_ptk[] = $ptk->ptk->nama;
                     $result_ptk_selected[] = $ptk->ptk_id;
-                    /*$result_ptk_selected[] = [
-                        'ptk_id' => $ptk->ptk_id,
-                        'nama' => $ptk->ptk->nama,
-                    ];*/
                 }
                 $this->kategori_ptk = collect($result_ptk);
-                $this->ptk_selected = $result_ptk_selected;//collect($result_ptk_selected);
+                $this->ptk_selected = $result_ptk_selected;
             } else {
                 $this->kategori_ptk = '';
                 $this->ptk_selected = [];
@@ -303,12 +296,9 @@ class Index extends Component
                 foreach($find->hari as $hari){
                     $result_hari[] = $hari->nama;
                     $result_hari_selected[] = $hari->nama;
-                    /*[
-                        'nama' => $hari->nama,
-                    ];*/
                 }
                 $this->kategori_hari = collect($result_hari);
-                $this->hari_selected = $result_hari_selected;//collect($result_hari_selected);
+                $this->hari_selected = $result_hari_selected;
             } else {
                 $this->kategori_hari = '';
                 $this->hari_selected = [];
@@ -343,5 +333,8 @@ class Index extends Component
             //$this->hari_selected = ($find->hari->count()) ? $find->hari()->select('nama')->get() : [];
             //$this->ptk_selected = ($find->ptk->count()) ? $find->ptk()->select('ptk_id')->get() : [];
         }
+    }
+    public function copyJam(){
+        
     }
 }
