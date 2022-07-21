@@ -31,6 +31,7 @@
                     <tr>
                         <th class="text-center">Sekolah</th>
                         <th class="text-center">Nama</th>
+                        <th class="text-center">Email</th>
                         <th class="text-center">NISN</th>
                         <th class="text-center">Kelas</th>
                     </tr>
@@ -40,6 +41,7 @@
                     <tr>
                         <td>{{$ptk->sekolah->nama}}</td>
                         <td>{{$ptk->nama}}</td>
+                        <td>{{$ptk->email}}</td>
                         <td>{{$ptk->nisn}}</td>
                         <td>{{$ptk->kelas->nama}}</td>
                     </tr>

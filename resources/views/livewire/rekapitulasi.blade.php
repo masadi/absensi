@@ -48,7 +48,7 @@
                 <thead>
                     <tr>
                         @role('administrator', session('semester_id'))
-                        <th class="text-center">PTK</th>
+                        <th class="text-center">PTK/PD</th>
                         @endrole
                         <th class="text-center">Tanggal</th>
                         <th class="text-center">Masuk</th>
@@ -60,7 +60,15 @@
                     @foreach($data_absen as $absen)
                     <tr>
                         @role('administrator', session('semester_id'))
-                        <td>{{$absen->ptk->nama}}</td>
+                        <td>
+                            @if($absen->ptk)
+                                {{$absen->ptk->nama}}
+                            @elseif($absen->pd)
+                                {{$absen->pd->nama}}
+                            @else
+                                -
+                            @endif
+                        </td>
                         @endrole
                         <td class="text-center">{{$absen->created_at->format('d/m/Y')}}</td>
                         <td class="text-center">{{($absen->absen_masuk) ? $absen->absen_masuk->created_at->format('H:i:s') : '-'}}</td>
@@ -79,11 +87,13 @@
                 </tbody>
             </table>
             <div class="row justify-content-between mt-2">
-                <div class="col-4">
-                    <p>Showing {{ $data_absen->firstItem() }} to {{ ($data_absen->firstItem()) ? $data_absen->firstItem() + $data_absen->count() - 1 : 0 }} of {{ $data_absen->total() }} items</p>
+                <div class="col-6">
+                    @if($data_absen->count())
+                    <p>Menampilkan {{ $data_absen->firstItem() }} sampai {{ $data_absen->firstItem() + $data_absen->count() - 1 }} dari {{ $data_absen->total() }} data</p>
+                    @endif
                 </div>
-                <div class="col-4">
-                    {{ $data_absen->links('components.custom-pagination-links-view') }}
+                <div class="col-6">
+                    {{ $data_absen->onEachSide(1)->links('components.custom-pagination-links-view') }}
                 </div>
             </div>
         </div>

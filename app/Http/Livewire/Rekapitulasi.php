@@ -54,6 +54,9 @@ class Rekapitulasi extends Component
             if($user->hasRole('ptk', session('semester_id'))){
                 $query->where('ptk_id', $user->ptk->ptk_id);
             }
+            if($user->hasRole('pd', session('semester_id'))){
+                $query->where('peserta_didik_id', $user->pd->peserta_didik_id);
+            }
             //$query->whereDate('created_at', Carbon::today());
             //$query->whereBetween('created_at', [$startDate, $endDate]);
             //$query->where('created_at', '>=', $startDate);
@@ -69,7 +72,7 @@ class Rekapitulasi extends Component
             } else {
                 $query->whereMonth('created_at', date('m'));
             }
-        })->with(['ptk', 'absen_masuk', 'absen_pulang'])->when($this->search, function($absen) {
+        })->with(['ptk', 'pd', 'absen_masuk', 'absen_pulang'])->when($this->search, function($absen) {
             $absen->wherehas('ptk', function($query){
                 $query->where('nama', 'ILIKE', '%' . $this->search . '%')
                 ->orWhere('nuptk', 'ILIKE', '%' . $this->search . '%');

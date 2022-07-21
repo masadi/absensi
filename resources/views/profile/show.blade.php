@@ -15,8 +15,11 @@ $breadcrumbs = [['link' => 'home', 'name' => 'Home'], ['link' => 'javascript:voi
 
   @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
     @livewire('profile.update-password-form')
+    @role('pd', session('semester_id'))
+    @livewire('profile.barcode')
+    @endrole
   @endif
-
+  {{--
   @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
     @livewire('profile.two-factor-authentication-form')
   @endif
@@ -26,5 +29,5 @@ $breadcrumbs = [['link' => 'home', 'name' => 'Home'], ['link' => 'javascript:voi
   @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
     @livewire('profile.delete-user-form')
   @endif
-
+  --}}
 @endsection

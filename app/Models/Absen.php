@@ -19,4 +19,7 @@ class Absen extends Model
 	public function ptk(){
 		return $this->hasOne(Ptk::class, 'ptk_id', 'ptk_id');
 	}
+	public function pd(){
+		return $this->hasOne(Peserta_didik::class, 'peserta_didik_id', 'peserta_didik_id');
+	}
 }
