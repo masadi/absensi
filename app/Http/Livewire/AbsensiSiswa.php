@@ -16,7 +16,9 @@ class AbsensiSiswa extends Component
     public $peserta_didik_id;
     public $disabled_masuk = 'disabled';
     public $disabled_pulang = 'disabled';
-    
+    public $welcome = FALSE;
+    public $bye = FALSE;
+
     public function render()
     {
         return view('livewire.absensi-siswa');
@@ -50,11 +52,15 @@ class AbsensiSiswa extends Component
                     'absen_id' => $absen->id,
                 ]);
                 $this->toastr('success', 'Absen Masuk berhasil disimpan', 'Selamat Datang '.$peserta_didik->nama);
+                $this->welcome = TRUE;
+                $this->bye = FALSE;
             } else {
                 Absen_pulang::updateOrCreate([
                     'absen_id' => $absen->id,
                 ]);
                 $this->toastr('success', 'Absen Pulang berhasil disimpan', 'Selamat Jalan '.$peserta_didik->nama);
+                $this->bye = TRUE;
+                $this->welcome = FALSE;
             }
         }
         $this->peserta_didik_id = NULL;
