@@ -21,7 +21,10 @@
                     <tr>
                         <th class="text-center">Nama</th>
                         <th class="text-center">NPSN</th>
-                        <th class="text-center">Jml Karyawan</th>
+                        <th class="text-center">Alamat</th>
+                        <th class="text-center">Jml PTK</th>
+                        <th class="text-center">Jml PD</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +32,21 @@
                     <tr>
                         <td>{{$sekolah->nama}}</td>
                         <td class="text-center">{{$sekolah->npsn}}</td>
+                        <td>{{$sekolah->alamat}}</td>
                         <td class="text-center">{{$sekolah->ptk_count}}</td>
+                        <td class="text-center">{{$sekolah->pd_count}}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" type="button" disabled wire:loading wire:target="syncPtk('{{$sekolah->sekolah_id}}')">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>
+                            </button>
+                            <button wire:loading.remove type="button" class="btn btn-primary btn-sm" wire:click="syncPtk('{{$sekolah->sekolah_id}}')">Sync PTK</button>
+                            <button class="btn btn-success btn-sm" type="button" disabled wire:loading wire:target="syncPd('{{$sekolah->sekolah_id}}')">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>
+                            </button>
+                            <button wire:loading.remove type="button" class="btn btn-success btn-sm" wire:click="syncPd('{{$sekolah->sekolah_id}}')">Sync PD</button>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -44,4 +61,52 @@
             </div>
         </div>
     </div>
+    <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Tambah Data Sekolah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <label for="npsn" class="col-sm-3 col-form-label">NPSN</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" wire:model="npsn" placeholder="Masukkan NPSN disini....">
+                            @error('npsn')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" wire:click.prevent="store()" wire:loading.remove>Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@push('scripts')
+<script>
+    window.addEventListener('toastr', event => {
+        toastr[event.detail.type](event.detail.message, event.detail.title, {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        });
+    })
+</script>
+@endpush

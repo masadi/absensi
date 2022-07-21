@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Setting;
+use App\Models\Team;
+use App\Models\User;
 
 class Umum extends Component
 {
@@ -22,7 +24,7 @@ class Umum extends Component
     public function render()
     {
         return view('livewire.umum', [
-            'data_semester' => Semester::get(),
+            'data_semester' => Semester::orderBy('semester_id', 'DESC')->get(),
         ]);
     }
     public function mount()
@@ -32,14 +34,47 @@ class Umum extends Component
         $this->jarak = ($jarak) ? $jarak->value : '';
     }
     public function save(){
-        //
+        $user = auth()->user();
         $this->validate();
-        Semester::where('semester_id', '<>', $this->semester_id)->update(['periode_aktif' => 0]);
-        Semester::where('semester_id', $this->semester_id)->update(['periode_aktif' => 1]);
+        $semester = Semester::find($this->semester_id);
+        $team = Team::firstOrCreate([
+            'name' => $semester->nama,
+            'display_name' => $semester->nama,
+            'description' => $semester->nama,
+        ]);
+        if(!$user->hasRole('administrator', $team)){
+            $user->attachRole('administrator', $team);
+        }
+        $semester->periode_aktif = 1;
+        $semester->save();
+        $roles = ['administrator', 'ptk', 'staf', 'pd'];
+        $get_users = User::whereRoleIs($roles, $semester->nama)->select('id')->get();
+        foreach($get_users as $user){
+            $user_id[] = $user->id;
+        }
+        $users = User::whereNotIn('id', $user_id)->get();
+        foreach($users as $user){
+            if($user->has('ptk')){
+                if(!$user->hasRole('ptk', $team)){
+                    $user->attachRole('ptk', $team);
+                }
+            }
+            if($user->has('pd')){
+                if(!$user->hasRole('pd', $team)){
+                    $user->attachRole('pd', $team);
+                }
+            }
+            if($user->has('staf')){
+                if(!$user->hasRole('staf', $team)){
+                    $user->attachRole('staf', $team);
+                }
+            }
+        }
         Setting::updateOrCreate(
             ['key' => 'jarak'],
             ['value' => $this->jarak]
         );
+        Semester::where('semester_id', '<>', $this->semester_id)->update(['periode_aktif' => 0]);
         session()->flash('message', 'Pengaturan berhasil disimpan.');
     }
 }

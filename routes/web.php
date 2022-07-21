@@ -31,6 +31,7 @@ Route::middleware([
     // Route Components
     Route::get('absensi', [StaterkitController::class, 'absensi'])->name('absensi.index');
     Route::get('ptk', [StaterkitController::class, 'ptk'])->name('absensi.ptk');
+    Route::get('pd', [StaterkitController::class, 'pd'])->name('absensi.pd');
     Route::get('rekapitulasi', [StaterkitController::class, 'rekapitulasi'])->name('absensi.rekapitulasi');
     Route::get('pengaturan', [StaterkitController::class, 'pengaturan'])->name('absensi.pengaturan');
     Route::get('data-sekolah', [StaterkitController::class, 'data_sekolah'])->name('absensi.data_sekolah');

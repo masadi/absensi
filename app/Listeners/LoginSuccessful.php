@@ -32,7 +32,7 @@ class LoginSuccessful
     {
         $semester = Semester::where('periode_aktif', 1)->first();
         $this->request->session()->put('semester_id', $semester->nama);
-        $this->request->session()->put('semester_aktif', $this->request->semester);
+        $this->request->session()->put('semester_aktif', $semester->semester_id);
         $sekolah_id = ($event->user->sekolah_id) ? $event->user->sekolah_id : NULL;
         $nama_sekolah = ($event->user->sekolah_id) ? $event->user->sekolah->nama : 'Yayasan Ariya Metta';
         $this->request->session()->put('sekolah_id', $sekolah_id);

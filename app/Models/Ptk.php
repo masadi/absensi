@@ -9,6 +9,7 @@ class Ptk extends Model
 {
     use HasFactory;
     public $incrementing = false;
+    public $keyType = 'string';
 	protected $table = 'ptk';
 	protected $primaryKey = 'ptk_id';
 	protected $guarded = [];

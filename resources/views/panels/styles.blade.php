@@ -6,6 +6,7 @@
 @endif
 
 @yield('vendor-style')
+<link rel="stylesheet" type="text/css" href="{{asset(mix('vendors/css/extensions/toastr.min.css'))}}">
 <!-- END: Vendor CSS-->
 
 <!-- BEGIN: Theme CSS-->
@@ -25,7 +26,7 @@
 
 {{-- Page Styles --}}
 @yield('page-style')
-
+<link rel="stylesheet" type="text/css" href="{{asset(mix('css/base/plugins/extensions/ext-component-toastr.css'))}}">
 <!-- laravel style -->
 <link rel="stylesheet" href="{{ asset(mix('css/overrides.css')) }}" />
 
@@ -39,5 +40,5 @@
   {{-- user custom styles --}}
   <link rel="stylesheet" href="{{ asset(mix('css/style.css')) }}" />
 @endif
-
+@stack('styles') 
 @livewireStyles

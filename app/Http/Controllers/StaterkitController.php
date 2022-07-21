@@ -14,6 +14,10 @@ class StaterkitController extends Controller
         ];
         return view('/content/home', ['breadcrumbs' => $breadcrumbs]);
     }
+    public function data_sekolah(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data Sekolah"]];
+        return view('content.data_sekolah', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
+    }
     public function absensi(Request $request){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Proses Absensi"]];
         return view('content.absensi', ['breadcrumbs' => $breadcrumbs]);
@@ -26,13 +30,13 @@ class StaterkitController extends Controller
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data PTK"]];
         return view('content.ptk', ['breadcrumbs' => $breadcrumbs]);
     }
+    public function pd(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data Peserta Didik"]];
+        return view('content.pd', ['breadcrumbs' => $breadcrumbs]);
+    }
     public function pengaturan(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Aplikasi"]];
         return view('content.pengaturan', ['breadcrumbs' => $breadcrumbs]);
-    }
-    public function data_sekolah(){
-        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data Sekolah"]];
-        return view('content.data_sekolah', ['breadcrumbs' => $breadcrumbs]);
     }
     public function data_kategori(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Kategori"]];

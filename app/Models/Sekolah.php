@@ -16,4 +16,8 @@ class Sekolah extends Model
 	{
 		return $this->hasMany(Ptk::class, 'sekolah_id', 'sekolah_id');
 	}
+	public function pd()
+	{
+		return $this->hasMany(Peserta_didik::class, 'sekolah_id', 'sekolah_id');
+	}
 }

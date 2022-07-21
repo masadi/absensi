@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Nama_hari;
+use App\Models\Semester;
 
 class GenerateReferensi extends Command
 {
@@ -43,5 +44,17 @@ class GenerateReferensi extends Command
             Nama_hari::updateOrCreate(['nama' => $hari]);
         }
         $this->info('Nama hari berhasil diproses');
+        Semester::updateOrCreate([
+            'semester_id' => 20211,
+            'nama' => '2021/2022 Ganjil',
+            'semester' => 1,
+            'periode_aktif' => 0,
+        ]);
+        Semester::updateOrCreate([
+            'semester_id' => 20212,
+            'nama' => '2021/2022 Genap',
+            'semester' => 2,
+            'periode_aktif' => 0,
+        ]);
     }
 }

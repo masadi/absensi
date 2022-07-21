@@ -79,7 +79,7 @@
           </span>
           <span class="user-status">
             @if (Auth::check())
-              {{ Auth::user()->roles->implode('display_name', '') }}
+              {{ Auth::user()->roles->unique()->implode('display_name', ', ') }}
             @endif
           </span>
         </div>

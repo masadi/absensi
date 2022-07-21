@@ -58,7 +58,15 @@ class User extends Authenticatable
     ];
     public function ptk()
     {
-        return $this->hasOne(Ptk::class, 'user_id', 'id');
+        return $this->hasOne(Ptk::class, 'user_id', 'id')->where('jenis_ptk_id', '<>', 0);
+    }
+    public function staf()
+    {
+        return $this->hasOne(Ptk::class, 'user_id', 'id')->where('jenis_ptk_id', 0);
+    }
+    public function pd()
+    {
+        return $this->hasOne(Peserta_didik::class, 'user_id', 'id');
     }
     public function sekolah()
     {

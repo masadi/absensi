@@ -3,7 +3,7 @@
 @section('title', 'Proses Absensi')
 
 @section('content')
-<livewire:absensi />
+@livewire('absensi')
 @endsection
 
 @section('page-style')
