@@ -28,20 +28,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($data_kategori->count())
-                        @foreach($data_kategori as $kategori)
+                    @if($collection->count())
+                        @foreach($collection as $item)
                         <tr>
-                            <td>{{$kategori->nama}}</td>
-                            <td>{{($kategori->sekolah_id) ? $kategori->sekolah->nama : 'UMUM'}}</td>
-                            <td class="text-center">{{($kategori->is_libur) ? 'Ya' : 'Tidak'}}</td>
-                            <td class="text-center">{{($kategori->tanggal_mulai) ?? '-'}}</td>
-                            <td class="text-center">{{($kategori->tanggal_akhir) ?? '-'}}</td>
+                            <td>{{$item->nama}}</td>
+                            <td>{{($item->sekolah_id) ? $item->sekolah->nama : 'UMUM'}}</td>
+                            <td class="text-center">{{($item->is_libur) ? 'Ya' : 'Tidak'}}</td>
+                            <td class="text-center">{{($item->tanggal_mulai) ?? '-'}}</td>
+                            <td class="text-center">{{($item->tanggal_akhir) ?? '-'}}</td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#copyModal" wire:click="getID({{$kategori->id}})">Copy</button>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#detilModal" wire:click="getID({{$kategori->id}})">Detil</button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="getID({{$kategori->id}})">Edit</button>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal" wire:click="getID({{$kategori->id}})">Hapus</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#copyModal" wire:click="getID({{$item->id}})">Copy</button>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#detilModal" wire:click="getID({{$item->id}})">Detil</button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal" wire:click="getID({{$item->id}})">Edit</button>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal" wire:click="getID({{$item->id}})">Hapus</button>
                                 </div>
                             </td>
                         </tr>
@@ -54,11 +54,13 @@
                 </tbody>
             </table>
             <div class="row justify-content-between mt-2">
-                <div class="col-4">
-                    <p>Showing {{ $data_kategori->firstItem() }} to {{ $data_kategori->firstItem() + $data_kategori->count() - 1 }} of {{ $data_kategori->total() }} items</p>
+                <div class="col-6">
+                    @if($collection->count())
+                    <p>Menampilkan {{ $collection->firstItem() }} sampai {{ $collection->firstItem() + $collection->count() - 1 }} dari {{ $collection->total() }} data</p>
+                    @endif
                 </div>
-                <div class="col-4">
-                    {{ $data_kategori->links('components.custom-pagination-links-view') }}
+                <div class="col-6">
+                    {{ $collection->onEachSide(1)->links('components.custom-pagination-links-view') }}
                 </div>
             </div>
         </div>

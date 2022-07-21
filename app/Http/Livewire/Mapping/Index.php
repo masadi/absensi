@@ -5,12 +5,12 @@ namespace App\Http\Livewire\Mapping;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use App\Models\Kategori;
 use App\Models\Jam;
 use App\Models\Sekolah;
 use App\Models\Ptk;
-use App\Models\Kategori_ptk;
-use App\Models\Kategori_hari;
+use App\Models\Jam_hari;
+use App\Models\Jam_ptk;
+use App\Models\Jam_pd;
 use App\Models\Nama_hari;
 use Carbon\Carbon;
 
@@ -24,8 +24,10 @@ class Index extends Component
     public $sortbydesc = 'DESC';
     public $per_page = 10;
     
-    public $kategori_id;
+    public $jam_id;
+    public $jam;
     public $sekolah_id; 
+    public $untuk;
     public $nama;
     public $is_libur;
     public $tanggal_mulai; 
@@ -48,7 +50,6 @@ class Index extends Component
     public $scan_pulang_start_menit = '00';
     public $scan_pulang_end_jam = '21';
     public $scan_pulang_end_menit = '00';
-    public $kategori;
     //db
     public $scan_masuk_start;
     public $scan_masuk_end;
@@ -57,12 +58,14 @@ class Index extends Component
     public $scan_pulang_end;
 
     //show
-    public $kategori_ptk;
-    public $kategori_hari;
+    public $jam_ptk;
+    public $jam_hari;
     public function render()
     {
         return view('livewire.mapping.index', [
-            'data_kategori' => Kategori::withCount('jam')->orderBy($this->sortby, $this->sortbydesc)
+            'collection' => Jam::with(['sekolah' => function($query){
+                $query->select('sekolah_id', 'nama');
+            }])->orderBy($this->sortby, $this->sortbydesc)
                 ->when($this->search, function($data) {
                     $data->where('nama', 'ILIKE', '%' . $this->search . '%')
                     ->orWhereHas('sekolah', function($query){
@@ -72,6 +75,11 @@ class Index extends Component
             'data_sekolah' => Sekolah::select('sekolah_id', 'nama')->get(),
             'nama_hari' => Nama_hari::select('nama')->get(),
         ]);
+    }
+    public function isUntuk($untuk){
+        if($untuk == 'pd'){
+            $this->data_ptk = [];
+        }
     }
     public function getPtk($sekolah_id){
         if($sekolah_id){
@@ -113,7 +121,7 @@ class Index extends Component
         //'hari_selected.*.nama' => 'nullable'
     ];
     protected $messages = [
-        'nama.required' => 'Nama Kategori tidak boleh kosong!!',
+        'nama.required' => 'Nama tidak boleh kosong!!',
         'scan_masuk_start_jam.required' => 'Jam Mulai Scan Masuk tidak boleh kosong!!',
         'scan_masuk_start_menit.required' => 'Menit Mulai Scan Masuk tidak boleh kosong!',
         'scan_masuk_end_jam.required' => 'Jam Akhir Scan Masuk tidak boleh kosong!!',
@@ -137,37 +145,35 @@ class Index extends Component
     ];
     public function store(){
         $this->validate();
-        $kategori = Kategori::create([
+        $jam = Jam::create([
             'sekolah_id' => ($this->sekolah_id) ? $this->sekolah_id : NULL,
+            'untuk' => $this->untuk,
             'nama' => $this->nama,
             'is_libur' => ($this->is_libur) ?? 0,
             'tanggal_mulai' => ($this->tanggal_mulai) ? date('Y-m-d', strtotime($this->tanggal_mulai)) : NULL,
             'tanggal_akhir' => ($this->tanggal_akhir) ? date('Y-m-d', strtotime($this->tanggal_akhir)) : NULL,
-        ]);
-        if($this->ptk_selected){
-            foreach($this->ptk_selected as $ptk_id){
-                Kategori_ptk::create([
-                    'ptk_id' => $ptk_id,
-                    'kategori_id' => $kategori->id,
-                ]);
-            }
-        }
-        if($this->hari_selected){
-            foreach($this->hari_selected as $hari){
-                Kategori_hari::create([
-                    'nama' => $hari,
-                    'kategori_id' => $kategori->id,
-                ]);
-            }
-        }
-        Jam::create([
-            'kategori_id' => $kategori->id,
             'scan_masuk_start' => $this->scan_masuk_start_jam.':'.$this->scan_masuk_start_menit,
             'scan_masuk_end' => $this->scan_masuk_end_jam.':'.$this->scan_masuk_end_menit,
             'waktu_akhir_masuk' => $this->waktu_akhir_masuk_jam.':'.$this->waktu_akhir_masuk_menit,
             'scan_pulang_start' => $this->scan_pulang_start_jam.':'.$this->scan_pulang_start_menit,
             'scan_pulang_end' => $this->scan_pulang_end_jam.':'.$this->scan_pulang_end_menit,
         ]);
+        if($this->ptk_selected){
+            foreach($this->ptk_selected as $ptk_id){
+                Jam_ptk::create([
+                    'ptk_id' => $ptk_id,
+                    'jam_id' => $jam->id,
+                ]);
+            }
+        }
+        if($this->hari_selected){
+            foreach($this->hari_selected as $hari){
+                Jam_hari::create([
+                    'nama' => $hari,
+                    'jam_id' => $jam->id,
+                ]);
+            }
+        }
         $this->close();
         $this->alert('info', 'Data Jam berhasil disimpan', [
             'position' => 'center'
@@ -188,7 +194,7 @@ class Index extends Component
         ]);
     }
     private function resetInputFields(){
-        $this->reset(['kategori_id', 'sekolah_id', 'nama', 'nama', 'is_libur', 'tanggal_mulai', 'tanggal_akhir', 'sekolah', 'isLibur', 'data_ptk', 'hari_selected', 'ptk_selected', 'scan_masuk_start_jam', 'scan_masuk_start_menit', 'scan_masuk_end_jam', 'scan_masuk_end_menit', 'waktu_akhir_masuk_jam', 'waktu_akhir_masuk_menit', 'scan_pulang_start_jam', 'scan_pulang_start_menit', 'scan_pulang_end_jam', 'scan_pulang_end_menit']);
+        $this->reset(['jam_id', 'sekolah_id', 'nama', 'nama', 'is_libur', 'tanggal_mulai', 'tanggal_akhir', 'sekolah', 'isLibur', 'data_ptk', 'hari_selected', 'ptk_selected', 'scan_masuk_start_jam', 'scan_masuk_start_menit', 'scan_masuk_end_jam', 'scan_masuk_end_menit', 'waktu_akhir_masuk_jam', 'waktu_akhir_masuk_menit', 'scan_pulang_start_jam', 'scan_pulang_start_menit', 'scan_pulang_end_jam', 'scan_pulang_end_menit']);
     }
     public function cancel(){
         $this->resetInputFields();
@@ -216,7 +222,7 @@ class Index extends Component
         $this->resetInputFields();
     }
     public function getID($id){
-        $this->kategori_id = $id;
+        $this->jam_id = $id;
         $this->setData('view');
     }
     /*public function updating($name, $value)
@@ -224,7 +230,7 @@ class Index extends Component
         $this->{$name} = $value;
     }*/
     public function setData($action){
-        $find = Kategori::find($this->kategori_id);
+        $find = Jam::find($this->jam_id);
         if($action == 'update'){
             $this->validate();
             $find->sekolah_id = $this->sekolah_id;
@@ -232,43 +238,36 @@ class Index extends Component
             $find->is_libur = $this->is_libur;
             $find->tanggal_mulai = ($this->tanggal_mulai) ? date('Y-m-d', strtotime($this->tanggal_mulai)) : NULL;
             $find->tanggal_akhir = ($this->tanggal_akhir) ? date('Y-m-d', strtotime($this->tanggal_akhir)) : NULL;
+            $find->scan_masuk_start = $this->scan_masuk_start_jam.':'.$this->scan_masuk_start_menit;
+            $find->scan_masuk_end = $this->scan_masuk_end_jam.':'.$this->scan_masuk_end_menit;
+            $find->waktu_akhir_masuk = $this->waktu_akhir_masuk_jam.':'.$this->waktu_akhir_masuk_menit;
+            $find->scan_pulang_start = $this->scan_pulang_start_jam.':'.$this->scan_pulang_start_menit;
+            $find->scan_pulang_end = $this->scan_pulang_end_jam.':'.$this->scan_pulang_end_menit;
             $find->save();
             if($this->ptk_selected){
                 $ptk_id_delete = [];
                 foreach($this->ptk_selected as $ptk_id){
                     $ptk_id_delete[] = $ptk_id;
-                    Kategori_ptk::updateOrCreate([
+                    Jam_ptk::updateOrCreate([
                         'ptk_id' => $ptk_id,
-                        'kategori_id' => $find->id,
+                        'jam_id' => $find->id,
                     ]);
                 }
                 if($ptk_id_delete){
-                    Kategori_ptk::where('kategori_id', $find->id)->whereNotIn('ptk_id', $ptk_id_delete)->delete();
+                    Jam_ptk::where('jam_id', $find->id)->whereNotIn('ptk_id', $ptk_id_delete)->delete();
                 }
             }
             if($this->hari_selected){
                 $hari_delete = [];
                 foreach($this->hari_selected as $hari){
                     $hari_delete[] = $hari;
-                    Kategori_hari::updateOrCreate([
+                    Jam_hari::updateOrCreate([
                         'nama' => $hari,
-                        'kategori_id' => $find->id,
+                        'jam_id' => $find->id,
                     ]);
                 }
-                Kategori_hari::where('kategori_id', $find->id)->whereNotIn('nama', $hari_delete)->delete();
+                Jam_hari::where('jam_id', $find->id)->whereNotIn('nama', $hari_delete)->delete();
             }
-            Jam::updateOrCreate(
-                [
-                    'kategori_id' => $find->id
-                ],
-                [
-                    'scan_masuk_start' => $this->scan_masuk_start_jam.':'.$this->scan_masuk_start_menit,
-                    'scan_masuk_end' => $this->scan_masuk_end_jam.':'.$this->scan_masuk_end_menit,
-                    'waktu_akhir_masuk' => $this->waktu_akhir_masuk_jam.':'.$this->waktu_akhir_masuk_menit,
-                    'scan_pulang_start' => $this->scan_pulang_start_jam.':'.$this->scan_pulang_start_menit,
-                    'scan_pulang_end' => $this->scan_pulang_end_jam.':'.$this->scan_pulang_end_menit,
-                    ]
-            );
         } elseif($action == 'delete'){
             $find->delete();
         } else {
@@ -286,10 +285,10 @@ class Index extends Component
                     $result_ptk[] = $ptk->ptk->nama;
                     $result_ptk_selected[] = $ptk->ptk_id;
                 }
-                $this->kategori_ptk = collect($result_ptk);
+                $this->jam_ptk = collect($result_ptk);
                 $this->ptk_selected = $result_ptk_selected;
             } else {
-                $this->kategori_ptk = '';
+                $this->jam_ptk = '';
                 $this->ptk_selected = [];
             }
             if($find->hari->count()){
@@ -297,27 +296,27 @@ class Index extends Component
                     $result_hari[] = $hari->nama;
                     $result_hari_selected[] = $hari->nama;
                 }
-                $this->kategori_hari = collect($result_hari);
+                $this->jam_hari = collect($result_hari);
                 $this->hari_selected = $result_hari_selected;
             } else {
-                $this->kategori_hari = '';
+                $this->jam_hari = '';
                 $this->hari_selected = [];
             }
-            if($find->jam){
-                $this->scan_masuk_start = $find->jam->scan_masuk_start;
-                $this->scan_masuk_end = $find->jam->scan_masuk_end;
-                $this->waktu_akhir_masuk = $find->jam->waktu_akhir_masuk;
-                $this->scan_pulang_start = $find->jam->scan_pulang_start;
-                $this->scan_pulang_end = $find->jam->scan_pulang_end;
-                $collect_scan_masuk_start = collect(explode(':', $find->jam->scan_masuk_start));
+            if($find){
+                $this->scan_masuk_start = $find->scan_masuk_start;
+                $this->scan_masuk_end = $find->scan_masuk_end;
+                $this->waktu_akhir_masuk = $find->waktu_akhir_masuk;
+                $this->scan_pulang_start = $find->scan_pulang_start;
+                $this->scan_pulang_end = $find->scan_pulang_end;
+                $collect_scan_masuk_start = collect(explode(':', $find->scan_masuk_start));
                 $collect_scan_masuk_start->pop();
-                $collect_scan_masuk_end = collect(explode(':', $find->jam->scan_masuk_end));
+                $collect_scan_masuk_end = collect(explode(':', $find->scan_masuk_end));
                 $collect_scan_masuk_end->pop();
-                $collect_waktu_akhir_masuk = collect(explode(':', $find->jam->waktu_akhir_masuk));
+                $collect_waktu_akhir_masuk = collect(explode(':', $find->waktu_akhir_masuk));
                 $collect_waktu_akhir_masuk->pop();
-                $collect_scan_pulang_start = collect(explode(':', $find->jam->scan_pulang_start));
+                $collect_scan_pulang_start = collect(explode(':', $find->scan_pulang_start));
                 $collect_scan_pulang_start->pop();
-                $collect_scan_pulang_end = collect(explode(':', $find->jam->scan_pulang_end));
+                $collect_scan_pulang_end = collect(explode(':', $find->scan_pulang_end));
                 $collect_scan_pulang_end->pop();
                 $this->scan_masuk_start_jam = $collect_scan_masuk_start->first();
                 $this->scan_masuk_start_menit = $collect_scan_masuk_start->last();

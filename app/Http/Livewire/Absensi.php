@@ -211,9 +211,6 @@ class Absensi extends Component
             $this->scan_masuk_end = ($jam) ? Carbon::createFromTimeString($jam->scan_masuk_end) : '';
             $this->scan_pulang_start = ($jam) ? Carbon::createFromTimeString($jam->scan_pulang_start) : '';
             $this->scan_pulang_end = ($jam) ? Carbon::createFromTimeString($jam->scan_pulang_end) : '';
-            //public $disabled_masuk = '';
-            //public $disabled_pulang = '';
-            //dd($this->masuk);
             if ($this->now->between($this->scan_masuk_start, $this->scan_masuk_end) && !$this->masuk) {
                 $this->disabled_masuk = '';
             }

@@ -23,17 +23,29 @@
                         </div>
                     </div>
                     <div class="row mb-2">
+                        <label for="untuk" class="col-sm-3 col-form-label">Peruntukan</label>
+                        <div class="col-sm-9">
+                            <select id="untuk" class="form-select" wire:model="untuk" wire:change="isUntuk($event.target.value)">
+                                <option value="ptk">PTK</option>
+                                <option value="pd">Peserta Didik</option>
+                            </select>
+                            @error('untuk')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-2">
                         <label for="is_libur" class="col-sm-3 col-form-label">Waktu Libur (Cuti)</label>
                         <div class="col-sm-9">
                             <select id="is_libur" class="form-select" wire:model="is_libur"
-                                wire:change="isLibur($event.target.value)" aria-describedby="is_liburHelpInline">
+                                wire:change="isLibur($event.target.value)">
                                 <option value="0">TIDAK</option>
                                 <option value="1">YA</option>
                             </select>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <label for="nama" class="col-sm-3 col-form-label">Nama Kategori</label>
+                        <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" wire:model="nama">
                             @error('nama')

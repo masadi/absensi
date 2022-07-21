@@ -18,8 +18,8 @@ class CreateAbsenTable extends Migration
             $table->uuid('ptk_id');
             $table->string('semester_id', 5);
             $table->timestamps();
-            $table->foreign('ptk_id')->references('ptk_id')->on('ptk');
-            $table->foreign('semester_id')->references('semester_id')->on('semester');
+            $table->foreign('ptk_id')->references('ptk_id')->on('ptk')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('semester_id')->references('semester_id')->on('semester')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

@@ -37,12 +37,10 @@ Route::middleware([
     Route::get('data-sekolah', [StaterkitController::class, 'data_sekolah'])->name('absensi.data_sekolah');
     Route::group(['prefix' => 'setting'], function(){
         Route::get('/', [StaterkitController::class, 'settings'])->name('setting.index');
-        Route::get('/kategori', [StaterkitController::class, 'data_kategori'])->name('setting.data_kategori');
         Route::get('/jam', [StaterkitController::class, 'data_jam'])->name('setting.data_jam');
     });
 });
-
-
+Route::get('absensi-siswa', [StaterkitController::class, 'absensi_siswa'])->name('absensi.siswa');
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 

@@ -14,6 +14,14 @@ class StaterkitController extends Controller
         ];
         return view('/content/home', ['breadcrumbs' => $breadcrumbs]);
     }
+    public function pengaturan(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Aplikasi"]];
+        return view('content.pengaturan', ['breadcrumbs' => $breadcrumbs]);
+    }
+    public function data_jam(){
+        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Jam"]];
+        return view('content.data_jam', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
+    }
     public function data_sekolah(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data Sekolah"]];
         return view('content.data_sekolah', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
@@ -33,18 +41,6 @@ class StaterkitController extends Controller
     public function pd(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Data Peserta Didik"]];
         return view('content.pd', ['breadcrumbs' => $breadcrumbs]);
-    }
-    public function pengaturan(){
-        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Aplikasi"]];
-        return view('content.pengaturan', ['breadcrumbs' => $breadcrumbs]);
-    }
-    public function data_kategori(){
-        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Kategori"]];
-        return view('content.data_kategori', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
-    }
-    public function data_jam(){
-        $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Jam"]];
-        return view('content.data_jam', ['breadcrumbs' => $breadcrumbs, 'tombol_add' => 1]);
     }
     public function settings(){
         $breadcrumbs = [['link' => "/", 'name' => "Beranda"], ['name' => "Pengaturan Umum"]];
@@ -92,5 +88,8 @@ class StaterkitController extends Controller
     {
         $pageConfigs = ['blankPage' => true];
         return view('/content/layout-blank', ['pageConfigs' => $pageConfigs]);
+    }
+    public function absensi_siswa(Request $request){
+        return view('content.absensi-siswa');
     }
 }

@@ -78,9 +78,7 @@ class DataJam extends Component
     public function render()
     {
         return view('livewire.data-jam', [
-            'data_jam' => Jam::with(['kategori' => function($query){
-                $query->select('id', 'nama', 'sekolah_id');
-            }])->orderBy($this->sortby, $this->sortbydesc)
+            'data_jam' => Jam::orderBy($this->sortby, $this->sortbydesc)
                 ->when($this->search, function($data) {
                     $data->whereHas('kategori', function($query){
                         $query->where('nama', 'ILIKE', '%' . $this->search . '%');

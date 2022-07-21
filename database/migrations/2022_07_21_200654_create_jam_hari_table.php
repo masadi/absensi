@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKategoriHariTable extends Migration
+class CreateJamHariTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateKategoriHariTable extends Migration
      */
     public function up()
     {
-        Schema::create('kategori_hari', function (Blueprint $table) {
+        Schema::create('jam_hari', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kategori_id')->constrained('kategori')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('jam_id')->constrained('jam')->onUpdate('cascade')->onDelete('cascade');
             $table->string('nama');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateKategoriHariTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategori_hari');
+        Schema::dropIfExists('jam_hari');
     }
 }

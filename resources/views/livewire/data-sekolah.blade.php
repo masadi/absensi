@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data_sekolah as $sekolah)
+                    @foreach($collection as $sekolah)
                     <tr>
                         <td>{{$sekolah->nama}}</td>
                         <td class="text-center">{{$sekolah->npsn}}</td>
@@ -52,11 +52,13 @@
                 </tbody>
             </table>
             <div class="row justify-content-between mt-2">
-                <div class="col-4">
-                    <p>Showing {{ $data_sekolah->firstItem() }} to {{ $data_sekolah->firstItem() + $data_sekolah->count() - 1 }} of {{ $data_sekolah->total() }} items</p>
+                <div class="col-6">
+                    @if($collection->count())
+                    <p>Menampilkan {{ $collection->firstItem() }} sampai {{ $collection->firstItem() + $collection->count() - 1 }} dari {{ $collection->total() }} data</p>
+                    @endif
                 </div>
-                <div class="col-4">
-                    {{ $data_sekolah->links('components.custom-pagination-links-view') }}
+                <div class="col-6">
+                    {{ $collection->onEachSide(1)->links('components.custom-pagination-links-view') }}
                 </div>
             </div>
         </div>

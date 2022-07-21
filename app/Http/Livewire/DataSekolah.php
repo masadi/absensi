@@ -38,7 +38,7 @@ class DataSekolah extends Component
     public function render()
     {
         return view('livewire.data-sekolah', [
-            'data_sekolah' => Sekolah::withCount(['ptk', 'pd' => function($query){
+            'collection' => Sekolah::withCount(['ptk', 'pd' => function($query){
                 $query->whereHas('anggota_rombel', function($query){
                     $query->where('semester_id', session('semester_aktif'));
                 });
@@ -101,7 +101,7 @@ class DataSekolah extends Component
             'sekolah_id'		=> $this->sekolah_id,
             'npsn'				=> $this->sekolah->npsn,
         ]);
-        if($response->successful()){
+        if($response->status() == 200){
             $all_data = $response->object();
             $role = Role::where('name', 'ptk')->first();
             $team = $this->get_team();
@@ -143,7 +143,9 @@ class DataSekolah extends Component
                 $this->toastr('error', 'Sinkronisasi PTK gagal', 'Pastikan Dapodik Anda sudah di sinkronisasi!');
             }
         } else {
-            $this->toastr('error', 'Gagal', 'Sinkronisasi PTK gagal. Silahkan coba beberapa saat lagi');
+            $response = $response->object();
+            $response = ($response) ? $response->message : 'Silahkan coba beberapa saat lagi';
+            $this->toastr('error', 'Gagal', 'Sinkronisasi PTK gagal. '.$response);
         }
     }
     public function ambil_pd(){

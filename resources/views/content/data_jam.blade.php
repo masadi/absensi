@@ -3,7 +3,7 @@
 @section('title', 'Pengaturan Jam')
 
 @section('content')
-<livewire:mapping.index />
+@livewire('mapping.index')
 @endsection
 @section('page-script')
 <script>

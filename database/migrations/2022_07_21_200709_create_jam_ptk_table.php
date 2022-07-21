@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKategoriPtkTable extends Migration
+class CreateJamPtkTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateKategoriPtkTable extends Migration
      */
     public function up()
     {
-        Schema::create('kategori_ptk', function (Blueprint $table) {
+        Schema::create('jam_ptk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kategori_id')->constrained('kategori')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('jam_id')->constrained('jam')->onUpdate('cascade')->onDelete('cascade');
             $table->uuid('ptk_id');
             $table->timestamps();
-            $table->foreign('ptk_id')->references('ptk_id')->on('ptk');
+            $table->foreign('ptk_id')->references('ptk_id')->on('ptk')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateKategoriPtkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategori_ptk');
+        Schema::dropIfExists('jam_ptk');
     }
 }

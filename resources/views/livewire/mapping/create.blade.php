@@ -12,13 +12,25 @@
                         <label for="sekolah_id" class="col-sm-3 col-form-label">Sekolah</label>
                         <div class="col-sm-9">
                             <select id="sekolah_id" class="form-select" wire:model="sekolah_id"
-                                wire:change="getPtk($event.target.value)" aria-describedby="sekolah_idHelpInline">
+                                wire:change="getPtk($event.target.value)">
                                 <option selected value="">Pilih Sekolah</option>
                                 <option value="">UMUM</option>
                                 @foreach ($data_sekolah as $sekolah)
                                     <option value="{{ $sekolah->sekolah_id }}">{{ $sekolah->nama }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="untuk" class="col-sm-3 col-form-label">Peruntukan</label>
+                        <div class="col-sm-9">
+                            <select id="untuk" class="form-select" wire:model="untuk" wire:change="isUntuk($event.target.value)">
+                                <option value="ptk">PTK</option>
+                                <option value="pd">Peserta Didik</option>
+                            </select>
+                            @error('untuk')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -32,7 +44,7 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <label for="nama" class="col-sm-3 col-form-label">Nama Kategori</label>
+                        <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" wire:model="nama">
                             @error('nama')

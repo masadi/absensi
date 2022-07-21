@@ -8,7 +8,7 @@
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
-                            <td>Kategori</td>
+                            <td>Nama</td>
                             <td colspan="2">{{$nama}}</td>
                         </tr>
                         <tr>
@@ -36,9 +36,9 @@
                         <tr>
                             <td>PTK</td>
                             <td colspan="2">
-                                @if($kategori_ptk)
+                                @if($jam_ptk)
                                 <ul class="ps-1">
-                                    @foreach($kategori_ptk as $ptk)
+                                    @foreach($jam_ptk as $ptk)
                                     <li>{{$ptk}}</li>
                                     @endforeach
                                 </ul>
@@ -48,9 +48,9 @@
                         <tr>
                             <td>Hari</td>
                             <td>
-                                @if($kategori_hari)
+                                @if($jam_hari)
                                 <ul class="ps-1">
-                                    @foreach($kategori_hari as $hari)
+                                    @foreach($jam_hari as $hari)
                                     <li>{{$hari}}</li>
                                     @endforeach
                                 </ul>

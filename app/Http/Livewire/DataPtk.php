@@ -31,7 +31,7 @@ class DataPtk extends Component
     {
         return view('livewire.data-ptk', [
             'data_sekolah' => Sekolah::select('sekolah_id', 'nama')->get(),
-            'data_ptk' => Ptk::with(['sekolah' => function($query){
+            'collection' => Ptk::with(['sekolah' => function($query){
                 $query->select('sekolah_id', 'nama');
             }])->orderBy($this->sortby, $this->sortbydesc)
                 ->when($this->search, function($ptk) {

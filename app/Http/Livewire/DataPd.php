@@ -31,7 +31,7 @@ class DataPd extends Component
     {
         return view('livewire.data-pd', [
             'data_sekolah' => Sekolah::select('sekolah_id', 'nama')->get(),
-            'data_ptk' => Peserta_didik::with([
+            'collection' => Peserta_didik::with([
                 'kelas' => function($query){
                     $query->where('anggota_rombel.semester_id', session('semester_aktif'));
                 },

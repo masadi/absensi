@@ -41,18 +41,9 @@ class GenerateDummy extends Command
     {
         $this->info('Generate Dummy Start');
         $kategori = Kategori::create([
-            'sekolah_id' => $this->argument('sekolah_id'),
-            'nama' => 'Hari Aktif',
-            'is_libur' => 0,
+            
         ]);
-        Jam::create([
-            'kategori_id' => $kategori->id,
-            'scan_masuk_start' => '06:00',
-            'scan_masuk_end' => '07:00',
-            'waktu_akhir_masuk' => '08:00',
-            'scan_pulang_start' => '09:00',
-            'scan_pulang_end' => '09:00',
-        ]);
+        
         $this->info('Generate Dummy End');
     }
 }
