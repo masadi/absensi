@@ -110,25 +110,6 @@ class Absensi extends Component
             'position' => 'center'
         ]);
     }
-    /*
-    const { value: formValues } = await Swal.fire({
-    title: 'Multiple inputs',
-    html:
-        '<input id="swal-input1" class="swal2-input">' +
-        '<input id="swal-input2" class="swal2-input">',
-    focusConfirm: false,
-    preConfirm: () => {
-        return [
-        document.getElementById('swal-input1').value,
-        document.getElementById('swal-input2').value
-        ]
-    }
-    })
-
-    if (formValues) {
-    Swal.fire(JSON.stringify(formValues))
-    }
-    */
     public function pulang_awal(){
         $this->alert('', 'Isi Formulir Pulang Cepat', [
             'showConfirmButton' => true,
@@ -201,10 +182,8 @@ class Absensi extends Component
         })->first();
         $jarak = config('settings.jarak');
         $jam = Jam::where(function($query) use ($user){
-            $query->whereHas('kategori', function($query) use ($user){
-                $query->where('sekolah_id', $user->sekolah_id);
-                $query->where('is_libur', 0);
-            });
+            $query->where('sekolah_id', $user->sekolah_id);
+            $query->where('is_libur', 0);
         })->first();
         if($jam){
             $this->scan_masuk_start = ($jam) ? Carbon::createFromTimeString($jam->scan_masuk_start) : '';
