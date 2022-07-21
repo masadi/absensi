@@ -10,14 +10,17 @@
 @endsection
 @section('content')
 @role('administrator', session('semester_id'))
-<livewire:statistik /> 
-@else
-<livewire:dashboard /> 
+@livewire('statistik')
+@endrole
+@role('ptk', session('semester_id'))
+@livewire('dashboard')
+@endrole
+@role('pd', session('semester_id'))
+@livewire('rekapitulasi')
 @endrole
 @endsection
 @section('vendor-script')
-@role('administrator', session('semester_id'))
-@else
+@role('ptk', session('semester_id'))
 @mapscripts
 @endrole
 @endsection
