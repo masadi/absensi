@@ -10,6 +10,8 @@ use App\Models\Absen_masuk;
 use App\Models\Absen_pulang;
 use App\Models\Semester;
 use Carbon\Carbon;
+use Zxing\QrReader;
+use Image;
 
 class AbsensiSiswa extends Component
 {
@@ -19,8 +21,20 @@ class AbsensiSiswa extends Component
     public $welcome = FALSE;
     public $bye = FALSE;
 
+    public function getListeners()
+    {
+        return [
+            'scan',
+        ];
+    }
+
     public function render()
     {
+        /*$width = 250;
+        $height = 250;
+        $qrcode = new QrReader(storage_path('app/public/qrcodes/416c24ea-50c5-11e5-aab3-c3910dbf76d0.png'));
+        $text = $qrcode->text();
+        dd($text);*/
         return view('livewire.absensi-siswa');
     }
     public function store(){
@@ -67,5 +81,9 @@ class AbsensiSiswa extends Component
     }
     public function toastr($type, $title, $message){
         $this->dispatchBrowserEvent('toastr', ['type' => $type,  'title' => $title, 'message' => $message]);
+    }
+    public function scan($peserta_didik_id){
+        $this->peserta_didik_id = $peserta_didik_id;
+        $this->updatedPesertaDidikId();
     }
 }

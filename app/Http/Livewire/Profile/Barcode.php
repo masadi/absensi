@@ -17,8 +17,8 @@ class Barcode extends Component
             //MAKA FOLDER TERSEBUT AKAN DIBUAT
             File::makeDirectory($folder, 0777, true, true);
         }
-        if(!File::exists(storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.svg'))){
-            QrCode::size(250)->generate($user->pd->peserta_didik_id, storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.svg'));
+        if(!File::exists(storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.png'))){
+            QrCode::size(250)->format('png')->generate($user->pd->peserta_didik_id, storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.png'));
         }
         return view('livewire.profile.barcode',[
             'user' => $user,
@@ -26,7 +26,7 @@ class Barcode extends Component
     }
     public function downloadQrCode(){
         $user = $this->loggedUser();
-        return response()->download(storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.svg'));
+        return response()->download(storage_path('app/public/qrcodes/'.$user->pd->peserta_didik_id.'.png'));
     }
     public function loggedUser(){
         return auth()->user();

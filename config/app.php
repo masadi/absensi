@@ -178,6 +178,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\MenuServiceProvider::class,
         Lavary\Menu\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
         'Menu'      => Lavary\Menu\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];
