@@ -10,8 +10,6 @@ use App\Models\Absen_masuk;
 use App\Models\Absen_pulang;
 use App\Models\Semester;
 use Carbon\Carbon;
-use Zxing\QrReader;
-use Image;
 
 class AbsensiSiswa extends Component
 {
