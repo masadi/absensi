@@ -22,10 +22,8 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
   <!--link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}"-->
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-
   {{-- Include core + vendor Styles --}}
   @include('panels/styles')
-
 </head>
 <!-- END: Head-->
 

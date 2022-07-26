@@ -13,4 +13,9 @@ class Anggota_rombel extends Model
 	protected $table = 'anggota_rombel';
 	protected $primaryKey = 'peserta_didik_id';
 	protected $guarded = [];
+    
+    public function peserta_didik()
+    {
+        return $this->hasOne(Peserta_didik::class, 'peserta_didik_id', 'peserta_didik_id');
+    }
 }

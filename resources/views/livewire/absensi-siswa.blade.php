@@ -5,12 +5,12 @@
                 <div x-data x-init="$refs.peserta_didik_id.focus()"> <!-- this component needs to swap out -->
                     <input class="form-control form-control-lg" wire:model="peserta_didik_id" x-ref="peserta_didik_id" type="text" placeholder="ID Peserta Didik">
                 </div>
-                <div class="text-center mt-2 {{($welcome) ? '' : 'd-none'}}">
+                <!--div class="text-center mt-2 {{($welcome) ? '' : 'd-none'}}">
                     <img class="img-fluid" src="{{asset('images/welcome.gif')}}" alt="">
                 </div>
                 <div class="text-center {{($bye) ? '' : 'd-none'}}">
                     <img class="img-fluid" src="{{asset('images/good-bye.gif')}}" alt="">
-                </div>
+                </div-->
                 <div class="row justify-content-between mt-2">
                     <div class="col-4 text-center">
                         <video id="preview"></video>

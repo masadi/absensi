@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Absen extends Model
 {
@@ -22,4 +23,8 @@ class Absen extends Model
 	public function pd(){
 		return $this->hasOne(Peserta_didik::class, 'peserta_didik_id', 'peserta_didik_id');
 	}
+	public function getUpdatedAtAttribute()
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['updated_at'])->format('d/m/Y H:i:s');
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Absen_masuk;
 use App\Models\Absen_pulang;
 use App\Models\Semester;
 use Carbon\Carbon;
+use Pusher\Pusher;
 
 class AbsensiSiswa extends Component
 {
@@ -25,14 +26,8 @@ class AbsensiSiswa extends Component
             'scan',
         ];
     }
-
     public function render()
     {
-        /*$width = 250;
-        $height = 250;
-        $qrcode = new QrReader(storage_path('app/public/qrcodes/416c24ea-50c5-11e5-aab3-c3910dbf76d0.png'));
-        $text = $qrcode->text();
-        dd($text);*/
         return view('livewire.absensi-siswa');
     }
     public function store(){
@@ -46,13 +41,18 @@ class AbsensiSiswa extends Component
         $peserta_didik_id = Str::isUuid($this->peserta_didik_id);
         //dd($stringLength);
         if($peserta_didik_id){
-            $peserta_didik = Peserta_didik::find($this->peserta_didik_id);
+            $peserta_didik = Peserta_didik::with(['kelas' => function($query){
+                $query->where('anggota_rombel.semester_id', 20212);
+            }])->find($this->peserta_didik_id);
             $absen = Absen::where(function($query){
                 $query->whereDate('created_at', Carbon::today());
                 $query->where('peserta_didik_id', $this->peserta_didik_id);
                 $query->where('semester_id', $this->getSemester()->semester_id);
             })->first();
-            if(!$absen){
+            if($absen){
+                $absen->updated_at = now();
+                $absen->save();
+            } else {
                 $absen = Absen::create([
                     'peserta_didik_id' => $this->peserta_didik_id,
                     'semester_id' => $this->getSemester()->semester_id,
@@ -74,8 +74,27 @@ class AbsensiSiswa extends Component
                 $this->bye = TRUE;
                 $this->welcome = FALSE;
             }
+            $absen->peserta_didik = $peserta_didik;
+            $this->notification($absen);
+            $this->reset(['peserta_didik_id']);
+        } else {
+            $this->toastr('error', 'Absen Gagal', 'Data Peserta Didik tidak ditemukan!');
         }
-        $this->peserta_didik_id = NULL;
+    }
+    public function notification($absen)
+    {
+        $options = array(
+            'cluster' => 'ap1',
+            'encrypted' => true
+        );
+        $pusher = new Pusher(
+            'bc531acdb4578535bf7a',
+            '9cec3f1e5c2a5cca6cbf',
+            1442785, 
+            $options
+        );
+        $pusher->trigger('notify-channel', 'App\\Events\\Notify', $absen);
+ 
     }
     public function toastr($type, $title, $message){
         $this->dispatchBrowserEvent('toastr', ['type' => $type,  'title' => $title, 'message' => $message]);

@@ -41,6 +41,7 @@ Route::middleware([
     });
 });
 Route::get('absensi-siswa', [StaterkitController::class, 'absensi_siswa'])->name('absensi.siswa');
+Route::get('report', [StaterkitController::class, 'report'])->name('absensi.report');
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 

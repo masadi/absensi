@@ -13,4 +13,9 @@ class Rombongan_belajar extends Model
 	protected $table = 'rombongan_belajar';
 	protected $primaryKey = 'rombongan_belajar_id';
 	protected $guarded = [];
+    
+    public function anggota_rombel()
+    {
+        return $this->hasMany(Anggota_rombel::class, 'rombongan_belajar_id', 'rombongan_belajar_id');
+    }
 }

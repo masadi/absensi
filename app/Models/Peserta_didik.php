@@ -21,6 +21,10 @@ class Peserta_didik extends Model
     {
         return $this->hasOne(Sekolah::class, 'sekolah_id', 'sekolah_id');
     }
+    public function absen()
+    {
+        return $this->hasOne(Absen::class, 'peserta_didik_id', 'peserta_didik_id');
+    }
     public function absen_masuk()
     {
         return $this->hasMany(Absen::class, 'peserta_didik_id', 'peserta_didik_id')->where('jenis_absen_id', 1);

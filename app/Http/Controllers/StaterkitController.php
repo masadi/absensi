@@ -92,4 +92,7 @@ class StaterkitController extends Controller
     public function absensi_siswa(Request $request){
         return view('content.absensi-siswa');
     }
+    public function report(Request $request){
+        return view('content.report');
+    }
 }

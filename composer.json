@@ -22,6 +22,7 @@
     "larswiegers/laravel-maps": "^0.12.0",
     "lavary/laravel-menu": "^1.8",
     "livewire/livewire": "^2.5",
+    "pusher/pusher-php-server": "^7.0",
     "rap2hpoutre/fast-excel": "^4.0",
     "santigarcor/laratrust": "^7.1",
     "simplesoftwareio/simple-qrcode": "~4"
